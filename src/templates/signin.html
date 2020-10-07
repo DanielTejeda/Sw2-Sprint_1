@@ -1,0 +1,56 @@
+{% extends 'bootstrap/base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block styles %}
+
+  
+
+{{super()}}
+<link rel="stylesheet" href="/static/css/signin.css" >
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<style>
+  .bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  @media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }
+  }
+
+  
+
+</style>
+
+
+
+
+{% endblock %}
+
+
+{% block content %}
+
+<form class="form-signin signin" method="POST" action="/login">
+  <img class="mb-4 ocultar-img" src="https://getbootstrap.com/docs/4.5/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+  <h1 class="h3 mb-3 font-weight-normal">Iniciar Sesión</h1>
+  {{ form.hidden_tag() }}
+  {{ wtf.form_field(form.email) }}
+  {{ wtf.form_field(form.contra) }}      
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+  <p class="mt-5 mb-3 text-muted">&copy; 2017-2020</p>
+</form>
+
+
+{% endblock %}
+
+
