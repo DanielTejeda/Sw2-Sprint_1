@@ -55,7 +55,7 @@ Login
   {% endwith %}
 
   <form method="POST" action="/login">
-    <img class="mb-2 mx-auto" src="{{ url_for('static',filename='img/Logo1.JPG')}}" alt="" width="260" height="80">
+    <img class="mb-2" src="{{ url_for('static',filename='img/Logo1.JPG')}}" alt="" width="260" height="80" style="display: block;margin: auto;">
     <h1 class="h3 mb-3 font-weight-normal">Iniciar Sesión</h1>
     {{ form.hidden_tag() }}
     {{ wtf.form_field(form.email) }}
