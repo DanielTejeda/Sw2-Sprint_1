@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, jsonify, redirect, url_for, session 
+from flask import Flask, request, render_template, jsonify, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_bootstrap import Bootstrap
@@ -303,7 +303,7 @@ def delete_product(id):
 #-----------------------------------------------------------------------------------------------------------------
 class LoginForm(FlaskForm):
     email= StringField('Email',validators=[InputRequired(), Length(min=4,max=30)])
-    contra= PasswordField('Contraseña',validators=[InputRequired(), Length(min=8,max=30)])
+    contra= PasswordField('Contraseña',validators=[InputRequired(), Length(min=4,max=30)])
 
 
 @app.route("/login", methods=['GET','POST'])
@@ -320,12 +320,16 @@ def login():
             if check_password_hash(user.contra,form.contra.data):
                 session["user"] = user.nombre
                 session["id_user"]= user.id
-                print("tercer" +session["user"] )
+                print(session["user"] )  
                 print(session["id_user"])
-                #return render_template('index.html')
+                #success_message = 'Bienvenido {}'.format(user.nombre)
+                #flash(success_message)
+                print("LOGGGEADOOOOO")
                 return render_template('Categorizacion.html')
 
-        return '<h1> Nombre o contra de usuario incorrecto </h1>'
+        error_message = "Usuario inexistente o contraseña no válida"
+        flash(error_message)
+        return render_template('signin.html', form=form)
     return render_template('signin.html', form=form)
 
 @app.route('/verProductos', methods=['GET']) 

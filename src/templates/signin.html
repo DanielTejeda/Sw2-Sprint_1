@@ -40,16 +40,30 @@ Login
 
 {% block content %}
 
-<form class="form-signin signin" method="POST" action="/login">
-  <img class="mb-4 ocultar-img" src="https://getbootstrap.com/docs/4.5/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-  <h1 class="h3 mb-3 font-weight-normal">Iniciar Sesión</h1>
-  {{ form.hidden_tag() }}
-  {{ wtf.form_field(form.email) }}
-  {{ wtf.form_field(form.contra) }}      
-  <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-  <p class="mt-5 mb-3 text-muted">&copy; 2017-2020</p>
-</form>
+<div class="form-signin signin" style="flex-direction: column;">
+  <!-- FLASH MESSAGES FROM FLASK
+  esto debe ir en el html base para que los mensajes esten disponibles en toda la aplicación web
+  -->
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-info justify-content-center">
+            {{ message }}
+          </div>
+        {% endfor %}
+    {% endif %}
+  {% endwith %}
 
+  <form method="POST" action="/login">
+    <img class="mb-2 mx-auto" src="{{ url_for('static',filename='img/Logo1.JPG')}}" alt="" width="260" height="80">
+    <h1 class="h3 mb-3 font-weight-normal">Iniciar Sesión</h1>
+    {{ form.hidden_tag() }}
+    {{ wtf.form_field(form.email) }}
+    {{ wtf.form_field(form.contra) }}      
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <p class="mt-5 mb-3 text-muted">&copy; 2017-2020</p>
+  </form>
+</div>
 
 {% endblock %}
 
