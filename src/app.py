@@ -302,8 +302,8 @@ def delete_product(id):
 #///////////////////////////////////////
 #-----------------------------------------------------------------------------------------------------------------
 class LoginForm(FlaskForm):
-    email= StringField('email',validators=[InputRequired(), Length(min=4,max=30)])
-    contra= PasswordField('contra',validators=[InputRequired(), Length(min=8,max=30)])
+    email= StringField('Email',validators=[InputRequired(), Length(min=4,max=30)])
+    contra= PasswordField('Contraseña',validators=[InputRequired(), Length(min=8,max=30)])
 
 
 @app.route("/login", methods=['GET','POST'])
@@ -332,7 +332,7 @@ def login():
 def see_products():
     return render_template('Categorizacion.html')
 
-@app.route("/logout", methods=['GET','POST'])
+@app.route("/logout", methods=['GET','POST']) 
 def logout():
     if "user" in session:
         session.pop("user")
@@ -392,6 +392,7 @@ def revisarMiCuenta():
 @app.errorhandler(404)
 def not_found(error=None):
     msg =jsonify({
+        "holi": "c q es obvio pero... algo anda mal",
         "mensaje": "Recurso no encontrado: "+ request.url,
         "status": 404
     })
