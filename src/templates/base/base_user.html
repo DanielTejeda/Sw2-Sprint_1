@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Don Juan Market</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="{{ url_for('static',filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="{{ url_for('static',filename='css/shop-homepage.css') }}" rel="stylesheet">
+ 
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">D'Juan Market</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="index.html">Inicio
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/miCuenta">Gestionar Cuenta</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/AdministrarPedido.html">Administrar Pedido</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="confirm('¿Estás seguro de cerrar sesión?')" href="/logout" >Cerrar Sesion</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="container">
+
+    <div class="row">
+
+      <div class="col-lg-3">
+
+        <h1 class="my-4">Bienvenido a D'Juan Market</h1>
+        <h2>Filtrar por : </h2>
+        <select name="Categoria">
+          <option value="">Todo</option>
+          <option value="Lacteos">Lacteos</option>
+          <option value="Enlatados">Enlatados</option>
+          <option value="Carnes">Carnes y embutidos</option>
+          <option value="Frutas y verduras">Frutas y verduras</option>
+          <option value="Productosdelimpieza">Productos de limpieza</option>
+        </select>
+      </div>
+      <!-- /.col-lg-3 -->
+
+      <div class="col-lg-9">
+
+        <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
+          <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+          </ol>
+
+          <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Anterior</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Siguiente</span>
+          </a>
+        </div>
+
+        <div class="row">
+
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-90">
+              <a href="#"><img class="card-img-top" src="img/Suave.jpg" alt=""></a>
+              <div class="card-body">
+                <h4 class="card-title">
+                    Papel Higienico Suave
+                </h4>
+                <h5>s/ 22.80</h5>
+                <button class="boton">Agregar</button>
+              </div>
+              <div class="card-footer">
+                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-90">
+              <a href="#"><img class="card-img-top" src="img/Aguasingas.png.jpg" alt=""></a>
+              <div class="card-body">
+                <h4 class="card-title">
+                    Agua sin gas Cielo bidon 7L
+                </h4>
+                <h5>s/6.90</h5>
+                <button class="boton">Agregar</button>
+              </div>
+              <div class="card-footer">
+                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-90">
+              <a href="#"><img class="card-img-top" src="img/Naranjas.jpg" alt=""></a>
+              <div class="card-body">
+                <h4 class="card-title">
+                    1kg Naranjas
+                </h4>
+                <h5>s/ 8.50 </h5>
+                <button class="boton">Agregar</button>
+              </div>
+              <div class="card-footer">
+                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-90">
+              <a href="#"><img class="card-img-top" src="img/Lechuga.jpg" alt=""></a>
+              <div class="card-body">
+                <h4 class="card-title">
+                    1 Lechuga
+                </h4>
+                <h5>s/ 7.50 </h5>
+                <button class="boton">Agregar</button>
+              </div>
+              <div class="card-footer">
+                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-90">
+              <a href="#"><img class="card-img-top" src="img/Sapolio.jpg" alt=""></a>
+              <div class="card-body">
+                <h4 class="card-title">
+                    Lejia Sapolio 5kg
+                </h4>
+                <h5>s/ 9.99 </h5>
+                <button class="boton">Agregar</button>
+              </div>
+              <div class="card-footer">
+                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-90">
+              <a href="#"><img class="card-img-top" src="img/Carne molida.jpg" alt=""></a>
+              <div class="card-body">
+                <h4 class="card-title">
+                   Carne Molida de Pavita San Fernando Bolsa 500g
+                </h4>
+                <h5>$24.99</h5>
+                <button class="boton">Agregar</button>
+              </div>
+              <div class="card-footer">
+                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- /.row -->
+
+      </div>
+      <!-- /.col-lg-9 -->
+
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+
+  <!-- Footer -->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2020</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
