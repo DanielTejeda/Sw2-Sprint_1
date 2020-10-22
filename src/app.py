@@ -355,7 +355,7 @@ class RegisterForm(FlaskForm):#Crea el formulario de regisgtro del usuario
 @app.route("/registrarse", methods=['GET','POST'])
 def registro():
     form = RegisterForm()
-    
+
     if form.validate_on_submit():    
         contrase=form.contra.data
         contra_cifrada=generate_password_hash(contrase)
