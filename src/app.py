@@ -325,7 +325,9 @@ def login():
                 #success_message = 'Bienvenido {}'.format(user.nombre)
                 #flash(success_message)
                 print("LOGGGEADOOOOO")
-                return render_template('Categorizacion.html')
+                #return render_template('Categorizacion.html')
+                return redirect(url_for('see_products')) #va el nombre de la funcion, no de la ruta
+                
 
         error_message = "Usuario inexistente o contraseña no válida"
         flash(error_message)
