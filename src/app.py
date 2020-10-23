@@ -82,7 +82,7 @@ def Index():
     return render_template("index.html")
 
 #///////////////////////////////////////
-#   OPERACIONES DE USUARIO - INCIO
+#   OPERACIONES CON USUARIO - INCIO
 #///////////////////////////////////////
 #URL para crear Usuarios
 @app.route('/crearUsuario', methods=['POST'])
@@ -107,9 +107,13 @@ def create_user():
 @app.route("/listarUsuarios", methods=["GET"])
 def get_users():
     all_users = Usuario.query.all() #devuelve todos los usuarios
-    result = usuarios_schema.dump(all_users) #graba la lista de usuario recuperados
-    print(result)
-    return jsonify(result) #devulve el resultado al cliente en formato JSON
+    #print("ALL_USERS: ",type(all_users))
+    #result = usuarios_schema.dump(all_users) #graba la lista de usuario recuperados
+    #print("RESULT: ",type(result))
+    #print(result) 
+    #return jsonify(result) #devulve el resultado al cliente en formato JSON
+    return render_template('ListarUsuariosAdmin.html',lista = all_users)
+
 
 #URL para buscar un Usuario específico
 @app.route("/listarUsuarios/<id>", methods=["GET"])
@@ -176,7 +180,7 @@ def delete_user():
 
     #return usuario_schema.jsonify(user) #devuelve el usuario eliminado
 #///////////////////////////////////////
-#   OPERACIONES DE USUARIO - FIN
+#   OPERACIONES CON USUARIO - FIN
 #///////////////////////////////////////
 
 
