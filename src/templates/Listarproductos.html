@@ -38,9 +38,10 @@
             
             <div class="partes">
               
-              <form action="/" method="get">
+              <form action="/admin/{{ cat }}" method="get">
                 <label for="categoria">Categorías</label>
-                <select id="categoria">
+                <select name="cat" id="categoria">
+                  <option value="ALL">Todas</option>
                   <option value="LA">Lácteos</option>
                   <option value="EN">Enlatados</option>
                   <option value="CE">Carnes y embutidos</option>
@@ -56,31 +57,36 @@
               <table class="table table-striped table-sm" id="tablon">
                 <thead>
                   <tr>
-                    <th>Codigo</th>
+                    <th>Código</th>
                     <th>Nombre</th>
                     <th>Precio</th>
-                    <th>Categoria</th>
-                    <th>Descripcion</th>
+                    <th>Categoría</th>
+                    <th>Cantidad</th>
                     <th>Imagen</th>
-                    
+
                     <th>Editar</th>
                     <th>Eliminar</th>
                     </tr>
                 </thead>
                 <tbody id="CuerpoTabla">
-                 <tr>
-                   <td>0001</td>
-                   <td>Naranja</td>
-                   <td>19.9</td>
-                   <td>osiosi</td>
-                   <td>Invisible</td>
-                   <td>Nai</td>
-                   <td><form method="POST">
-                     <input type="hidden" name="idaeditar"/> <input type="submit" value="Editar Producto"/> </form></td>
-                  </form>
-                  <td><form method="POST">
-                    <input type="hidden" name="idaeditar"/> <input type="submit" value="Eliminar Producto"/> </form></td>
-                 </tr>
+                  {% for prod in listaProd %}
+                    <tr>
+                      <td>{{ prod.id }}</td>
+                      <td>{{ prod.nombreProd }}</td>
+                      <td>{{ prod.precio }}</td>
+                      <td>{{ prod.categoria }}</td>
+                      <td>{{ prod.cantidad }}</td>
+                      <td>{{ prod.imagen }}</td>
+                      <td>
+                        <form method="POST">
+                        <input type="hidden" name="idaeditar"/> <input type="submit" value="Editar Producto"/> </form>
+                      </td>
+                      
+                      <td><form method="POST">
+                        <input type="hidden" name="idaeditar"/> <input type="submit" value="Eliminar Producto"/></form>
+                      </td>
+                    </tr>
+                  {% endfor %}
                     
       
       

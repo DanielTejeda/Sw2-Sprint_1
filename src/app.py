@@ -203,9 +203,32 @@ class ProductForm(FlaskForm):#Crea el formulario de regisgtro de productos
     imagen=StringField('imagen',validators=[Optional(), Length(min=2,max=50)])
 
 
-@app.route("/admin",methods=["GET"])
-def indexAdmin():
-    return render_template("Listarproductos.html") 
+#@app.route("/admin",methods=["GET"])
+#def indexAdmin():
+#    return render_template("Listarproductos.html") 
+
+#LISTAR PRODUCTOS POR CATEGORIA (LISTA TODOS POR DEFAULT)
+@app.route("/admin/", methods=["GET"])
+@app.route("/admin/<cat>", methods=["GET"])
+def get_products_by_cat(cat="HOLU"):
+    products = Producto.query.all() #devuelve una lista
+    p_filtrados = []  #lista vacia
+    cat = request.args.get('cat')
+
+    opciones=["LA","EN","CE","PL","FV"]
+
+    if cat == "ALL":
+        p_filtrados = products
+    elif (cat in opciones): 
+        for p in products:
+            if(cat == p.categoria):
+                p_filtrados.append(p)
+    else:
+        p_filtrados="EMPTY"
+    #res = productos_schema.dump(p_filtrados) #convierte la lista en un esquema de productos
+    #return jsonify(res) #devuelve el esquema convertido a json
+    return render_template('Listarproductos.html',listaProd = p_filtrados)
+
 
 @app.route('/crearProducto', methods=['GET','POST'])
 def create_product():
@@ -242,16 +265,7 @@ def get_products():
     #print(result)
     return jsonify(result)
 
-@app.route("/listarProductos/<cat>", methods=["GET"])
-def get_products_by_cat(cat):
-    products = Producto.query.all() #devuelve una lista
-    p_filtrados = []  #lista vacia
 
-    for p in products:
-        if(cat == p.categoria):
-            p_filtrados.append(p)
-    res = productos_schema.dump(p_filtrados) #convierte la lista en un esquema de productos
-    return jsonify(res) #devuelve el esquema convertido a json
 
 @app.route("/actualizarProducto/<id>", methods=["PUT"])
 def update_product(id):
@@ -333,7 +347,7 @@ def login():
                 return redirect(url_for('see_products')) #va el nombre de la funcion, no de la ruta
                 
 
-        error_message = "Usuario inexistente o contraseña no válida"
+        error_message = "Usuario o contraseña incorrectos"
         flash(error_message)
         return render_template('signin.html', form=form)
     return render_template('signin.html', form=form)
