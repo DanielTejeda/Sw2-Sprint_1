@@ -210,21 +210,19 @@ class ProductForm(FlaskForm):#Crea el formulario de regisgtro de productos
 #LISTAR PRODUCTOS POR CATEGORIA (LISTA TODOS POR DEFAULT)
 @app.route("/admin/", methods=["GET"])
 @app.route("/admin/<cat>", methods=["GET"])
-def get_products_by_cat(cat="HOLU"):
+def get_products_by_cat(cat="ALL"):
     products = Producto.query.all() #devuelve una lista
     p_filtrados = []  #lista vacia
     cat = request.args.get('cat')
 
     opciones=["LA","EN","CE","PL","FV"]
 
-    if cat == "ALL":
-        p_filtrados = products
-    elif (cat in opciones): 
+    if (cat in opciones):
         for p in products:
             if(cat == p.categoria):
                 p_filtrados.append(p)
     else:
-        p_filtrados="EMPTY"
+        p_filtrados = products
     #res = productos_schema.dump(p_filtrados) #convierte la lista en un esquema de productos
     #return jsonify(res) #devuelve el esquema convertido a json
     return render_template('Listarproductos.html',listaProd = p_filtrados)
@@ -242,8 +240,12 @@ def create_product():
             db.session.add(nuevo_producto) #lo cargo a la BD
             db.session.commit() #termino la operacion
             #user=Usuario.query.filter_by(nombre=(session["user"])).first()
-            return render_template("Listarproductos.html")
-    return render_template('Registradoconexito.html')
+            #return render_template("Listarproductos.html")
+            #print("LE TONGUEEEEE")
+            return redirect(url_for("get_products_by_cat"))
+    #return render_template('Registradoconexito.html')
+    #print("GAAAAAA")
+    return redirect(url_for("get_products_by_cat"))
     
     '''
     nombreProd = request.json['nombreProd']
@@ -289,13 +291,13 @@ def update_product(id):
     db.session.commit()
     return producto_schema.jsonify(prod)
 
-@app.route("/eliminarProducto/<id>", methods=["DELETE"])
+@app.route("/eliminarProducto/<id>", methods=["POST"])
 def delete_product(id):
     prod = Producto.query.get(id)
     db.session.delete(prod)
     db.session.commit()
 
-    return producto_schema.jsonify(prod)
+    return redirect(url_for("get_products_by_cat"))
     
 
 #///////////////////////////////////////

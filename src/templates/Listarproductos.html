@@ -82,8 +82,12 @@
                         <input type="hidden" name="idaeditar"/> <input type="submit" value="Editar Producto"/> </form>
                       </td>
                       
-                      <td><form method="POST">
-                        <input type="hidden" name="idaeditar"/> <input type="submit" value="Eliminar Producto"/></form>
+                      <td>
+                        <form action="/eliminarProducto/{{ prod.id }}" method="POST">
+                          <button type="submit">Eliminar Producto</button>
+                          <!--
+                        <input type="hidden" name="idaeditar"/> <input type="submit" value="Eliminar Producto"/>-->
+                        </form>
                       </td>
                     </tr>
                   {% endfor %}
