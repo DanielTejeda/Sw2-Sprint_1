@@ -428,13 +428,9 @@ def revisarMiCuenta():
 
 
 
-
-
-
-
-
-
-
+@app.route("/verPedidos",methods=["GET"])
+def ver_Pedidos():
+    return render_template("AdministrarPedido.html")
 
 
 
@@ -442,12 +438,10 @@ def revisarMiCuenta():
 @app.errorhandler(404)
 def not_found(error=None):
     msg =jsonify({
-        "holi": "c q es obvio pero... algo anda mal",
+        "holas": "c q es obvio pero... algo anda mal",
         "mensaje": "Recurso no encontrado: "+ request.url,
         "status": 404
     })
-    #response.status_code = 404
-    #return response
     return msg 
 
 #main + TAB
