@@ -60,6 +60,24 @@ class Producto(db.Model):
         self.categoria = categoria
         self.descripcion = descripcion
         self.imagen = imagen 
+
+class Pedido(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    producto_id = db.Column(db.Integer, db.ForeignKey('producto.id'))
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
+    cantidad = db.Column(db.Integer)
+    precio_uni = db.Column(db.Float)
+    precio_total = db.Column(db.Float)
+    estado = db.Column(db.String(20))
+
+    def __init__(self, producto_id, usuario_id, cantidad, precio_uni, precio_total, estado):
+        self.producto_id = producto_id
+        self.usuario_id = usuario_id
+        self.cantidad = cantidad
+        self.precio_uni = precio_uni
+        self.precio_total = precio_total
+        self.estado = estado
+
 #sentencia para crear todas las tablas
 db.create_all()
 
@@ -75,6 +93,12 @@ class ProductoSchema(ma.Schema):
         fields = ("id", "nombreProd", "precio", "cantidad", "categoria", "descripcion", "imagen")
 producto_schema = ProductoSchema()
 productos_schema = ProductoSchema(many=True)
+
+class PedidoSchema(ma.Schema):
+    class Meta:
+        fields = ("id", "producto_id", "usuario_id", "cantidad", "precio_uni", "precio_total", "estado")
+pedido_schema = PedidoSchema()
+pedidos_schema = PedidoSchema(many=True)
 #HASTA AQUI TERMINA LA DEFINICION DE LA BASE DE DATOS
 
 @app.route('/')
