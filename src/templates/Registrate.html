@@ -1,34 +1,69 @@
-{% extends 'bootstrap/base.html' %}
+{% extends 'signin.html' %}
 {% import 'bootstrap/wtf.html' as wtf %}
+
+
+{% block styles %}
+
+  
+
+{{super()}}
+<link rel="stylesheet" href="/static/css/signin.css" >
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<style>
+  .bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  @media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }
+  }
+
+  
+
+</style>
+
+
+{% endblock %}
 
 {% block content %}
        
-<h1 class="h2">Registrarse</h1>
-  
+
+<div class="form-signin signin" style="flex-direction: column;">
 
 <form method="POST" action="/registrarse">
   <!-- <div class="btn-toolbar mb-2 mb-md-0"> 
     
     </div>-->
-    <button type="submit" class="btn btn-primary"  id="modDatos">Guardar datos</button>                  
+    <h1 class="h3 mb-3 font-weight-normal">Registrarse</h1>
+                    
     {{ form.hidden_tag() }}             
     {{ wtf.form_field(form.nombre) }}           
     {{ wtf.form_field(form.email) }}            
     {{ wtf.form_field(form.telefono) }}                                              
     {{ wtf.form_field(form.contra) }}
-    
+
+    <button type="submit" class="btn btn-lg btn-primary btn-block" >Guardar datos</button>  
 
 </form>
-</main>
+
+<footer class="py-5 bg-dark">
+  <div class="container">
+    <p class="m-0 text-center text-white">Copyright &copy; Your Website 2020</p>
+  </div>
+ 
+</footer>
+
           
-        
+</div>        
 
  
-  <footer class="py-5 bg-dark">
-    <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2020</p>
-    </div>
-   
-  </footer>
+  
 -
   {% endblock %}

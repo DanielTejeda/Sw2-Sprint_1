@@ -14,7 +14,7 @@ app.config['SECRET_KEY']='estoessecretoXD!'
 
 Bootstrap(app)
 # PostreSQL Connection
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/postgres'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1234@localhost/postgres'
 #para q no mande alertas cuando hagamos modificaciones (opcional)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False 
 # MySQL Connection
@@ -260,7 +260,6 @@ def create_product():
     else:
         if form.validate_on_submit():
             nuevo_producto=Producto(nombreProd=form.nombreProd.data, precio=form.precio.data, cantidad=form.cantidad.data, categoria=form.categoria.data, descripcion=form.descripcion.data, imagen=form.imagen.data)
-
             db.session.add(nuevo_producto) #lo cargo a la BD
             db.session.commit() #termino la operacion
             #user=Usuario.query.filter_by(nombre=(session["user"])).first()
@@ -293,27 +292,7 @@ def get_products():
 
 
 
-@app.route("/actualizarProducto/<id>", methods=["PUT"])
-def update_product(id):
-    #recupera al producto
-    prod = Producto.query.get(id)
-    #recupera los campos del request
-    nombreProd = request.json['nombreProd']
-    precio = request.json['precio']
-    cantidad = request.json['cantidad']
-    categoria = request.json["categoria"]
-    descripcion = request.json["descripcion"]
-    imagen = request.json["imagen"]
-    #actualiza los campos
-    prod.nombreProd = nombreProd
-    prod.precio = precio
-    prod.cantidad = cantidad
-    prod.categoria = categoria
-    prod.descripcion = descripcion
-    prod.imagen = imagen 
-    #guarda los cambios
-    db.session.commit()
-    return producto_schema.jsonify(prod)
+
 
 @app.route("/eliminarProducto/<id>", methods=["POST"])
 def delete_product(id):
@@ -382,6 +361,10 @@ def login():
 def see_products():
     return render_template('Categorizacion.html')
 
+@app.route('/compraprocesada',methods=['GET'])
+def process():
+    return render_template('ProcesarCompra.html')
+
 @app.route("/logout", methods=['GET','POST']) 
 def logout():
     if "user" in session:
@@ -425,7 +408,35 @@ def revisarMiCuenta():
     return render_template('GestionarCuenta.html', nombre=user.nombre, email=user.email, telefono=user.telefono)
 
 
-
+@app.route("/actualizarProducto/<id>", methods=["GET","POST"])
+def update_producto(id):
+    form = ProductForm()
+    
+    
+    
+    #recupera al producto
+    product = Producto.query.get(id)
+    print("GAAAAAAAAA")
+    if request.method == "GET":
+        print("GEEET")
+        return render_template('ActualizarProducto.html',id=product.id,nombre=product.nombreProd, precio=product.precio, cantidad=product.cantidad,categoria=product.categoria,descripcion=product.descripcion,imagen=product.imagen, form=form )
+    else:
+        if form.validate_on_submit():   
+             
+                product.nombreProd=form.nombreProd.data
+                product.precio=form.precio.data
+                product.cantidad=form.cantidad.data
+                product.categoria=form.categoria.data
+                product.descripcion=form.descripcion.data
+                product.imagen=form.imagen.data
+                
+                
+                db.session.commit() #termino la operacion
+                
+                return redirect(url_for('get_products_by_cat'))
+        return("ERROR")
+        
+        
 
 
 @app.route("/verPedidos",methods=["GET"])

@@ -1,7 +1,7 @@
-{% extends 'base/base_admin.html' %}
+{% extends 'base/base_user.html' %}
 
 {% block content %}
-  {% import 'bootstrap/wtf.html' as wtf %}
+
   <!-- Page Content -->
   <div class="container">
 
@@ -35,33 +35,16 @@
 
         <div class="row">
           <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-            <form method="POST" action="/actualizarProducto/{{id}}">
-              <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Actualizar Producto</h1>
-                <div class="btn-toolbar mb-2 mb-md-0"> 
-                  <div class="btn-group mr-2">
-                    <button type="submit" class="btn btn-primary"  id="modDatos">Guardar datos</button>
-                  </div>
-                </div>
-                
-              </div>
-    
-            
-              {{ form.hidden_tag() }}             
-              {{ wtf.form_field(form.nombreProd, value= nombre) }}     
-              {{ wtf.form_field(form.precio, value= precio) }}     
-              {{ wtf.form_field(form.cantidad, value= cantidad) }}     
-              {{ wtf.form_field(form.categoria, value= categoria) }}
-              {{ wtf.form_field(form.descripcion, value=descripcion) }}
-              {{ wtf.form_field(form.imagen, value=imagen) }}
-            
-            </form>
-            
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+              <h1 class="h2">Pedido Realizado Exitosamente !</h1>
               
+              
+            </div>
+      
+            
+            </div>
+            
            
-            
-            
-          
           </main>
           
         </div>
@@ -76,11 +59,10 @@
   </div>
   <!-- /.container -->
 
-
   {% block jScript %}
-    <!--
+  <!--
       BLOQUE PARA COLOCAR ARCHIVOS JS
     -->
   {% endblock %}
-
+  
 {% endblock %}

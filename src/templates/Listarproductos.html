@@ -78,12 +78,14 @@
                       <td>{{ prod.cantidad }}</td>
                       <td>{{ prod.imagen }}</td>
                       <td>
-                        <form method="POST">
-                        <input type="hidden" name="idaeditar"/> <input type="submit" value="Editar Producto"/> </form>
+                        <form action="/actualizarProducto/{{prod.id}}" method="GET">
+                          <a href='ActualizarProducto'><button type="submit">Editar Producto</button></a>
+                        
+                        </form>
                       </td>
                       
                       <td>
-                        <form action="/eliminarProducto/{{ prod.id }}" method="POST">
+                        <form action="/eliminarProducto/{{prod.id}}" method="POST">
                           <button type="submit">Eliminar Producto</button>
                           <!--
                         <input type="hidden" name="idaeditar"/> <input type="submit" value="Eliminar Producto"/>-->
