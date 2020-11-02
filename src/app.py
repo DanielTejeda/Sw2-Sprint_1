@@ -14,7 +14,7 @@ app.config['SECRET_KEY']='estoessecretoXD!'
 
 Bootstrap(app)
 # PostreSQL Connection
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Merlin879@localhost/postgres'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1234@localhost/postgres'
 #para q no mande alertas cuando hagamos modificaciones (opcional)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False 
 # MySQL Connection
@@ -364,10 +364,10 @@ def logout():
     return render_template('index.html')
 
 class RegisterForm(FlaskForm):#Crea el formulario de regisgtro del usuario
-    email=StringField('email',validators=[InputRequired(), Length(min=4,max=30)])
-    nombre=StringField('nombre',validators=[InputRequired(), Length(min=4,max=30)])
-    contra= PasswordField('contra',validators=[InputRequired(), Length(min=8,max=30)])
-    telefono=StringField('telefono',validators=[InputRequired(), Length(min=4,max=30)])
+    email=StringField('Email',validators=[InputRequired(), Length(min=4,max=30)])
+    nombre=StringField('Nombre',validators=[InputRequired(), Length(min=4,max=30)])
+    contra= PasswordField('Contraseña',validators=[InputRequired(), Length(min=8,max=30)])
+    telefono=StringField('Teléfono',validators=[InputRequired(), Length(min=4,max=30)])
 
 @app.route("/registrarse", methods=['GET','POST'])
 def registro():
