@@ -14,7 +14,7 @@ app.config['SECRET_KEY']='estoessecretoXD!'
 
 Bootstrap(app)
 # PostreSQL Connection
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1234@localhost/postgres'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Merlin879@localhost/postgres'
 #para q no mande alertas cuando hagamos modificaciones (opcional)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False 
 # MySQL Connection
@@ -299,7 +299,7 @@ def delete_product(id):
     prod = Producto.query.get(id)
     db.session.delete(prod)
     db.session.commit()
-
+    flash("Producto Eliminado Satisfactoriamente")
     return redirect(url_for("get_products_by_cat"))
     
 
@@ -307,16 +307,6 @@ def delete_product(id):
 #   OPERACIONES DE PRODUCTO - FIN
 #///////////////////////////////////////
 #-----------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
 
 
 
