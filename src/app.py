@@ -5,16 +5,20 @@ from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, TextAreaField, IntegerField, FloatField, SelectField
 from wtforms.validators import InputRequired, Email, Length, Optional
-from werkzeug.security import generate_password_hash, check_password_hash
-import views    
+from werkzeug.security import generate_password_hash, check_password_hash 
+from werkzeug.utils import secure_filename  
+import os
 
+import views
 # initializations
 app = Flask(__name__)
+
 app.config['SECRET_KEY']='estoessecretoXD!'
 
 Bootstrap(app)
 # PostreSQL Connection
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1234@localhost/postgres'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1234@localhost/postgres'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/postgres'
 #para q no mande alertas cuando hagamos modificaciones (opcional)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False 
 # MySQL Connection
@@ -23,6 +27,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 #app.config['MYSQL_PASSWORD'] = 'password'
 #app.config['MYSQL_DB'] = 'flaskcontacts' 
 #mysql = MySQL(app)
+
+#ruta absoluta para guardar las imagenes en en pc de Daniel
+app.config['IMAGE_UPLOADS'] = 'C:/Users/Daniel/Desktop/D-Juan-Market/Sprint_2/Sw2-Sprint_1/src/static/img/productos'
 
 #instancia de la bd postrge
 db = SQLAlchemy(app) #para usar la bd en otra aplicaciones colocar () sin mas
@@ -337,7 +344,7 @@ def login():
                 print(session["id_user"])
                 #success_message = 'Bienvenido {}'.format(user.nombre)
                 #flash(success_message)
-                print("LOGGGEADOOOOO")
+                print("LOGGGEADOOOOO") 
                 #return render_template('Categorizacion.html')
                 return redirect(url_for('see_products')) #va el nombre de la funcion, no de la ruta
                 
@@ -347,9 +354,27 @@ def login():
         return render_template('signin.html', form=form)
     return render_template('signin.html', form=form)
 
-@app.route('/verProductos', methods=['GET']) 
-def see_products():
-    return render_template('Categorizacion.html')
+#@app.route('/verProductos', methods=['GET']) 
+#def see_products():
+#    return render_template('Categorizacion.html')
+@app.route("/verProductos/", methods=["GET"])
+@app.route("/verProductos/<cat>", methods=["GET"])
+def see_products(cat="ALL"):
+    products = Producto.query.all() #devuelve una lista
+    p_filtrados = []  #lista vacia
+    cat = request.args.get('cat')
+
+    opciones=["LA","EN","CE","PL","FV"]
+
+    if (cat in opciones):
+        for p in products:
+            if(cat == p.categoria):
+                p_filtrados.append(p)
+    else:
+        p_filtrados = products
+    #res = productos_schema.dump(p_filtrados) #convierte la lista en un esquema de productos
+    #return jsonify(res) #devuelve el esquema convertido a json
+    return render_template('Categorizacion.html',listaProd = p_filtrados)
 
 @app.route('/compraprocesada',methods=['GET'])
 def process():
@@ -401,9 +426,6 @@ def revisarMiCuenta():
 @app.route("/actualizarProducto/<id>", methods=["GET","POST"])
 def update_producto(id):
     form = ProductForm()
-    
-    
-    
     #recupera al producto
     product = Producto.query.get(id)
     print("GAAAAAAAAA")
@@ -420,7 +442,17 @@ def update_producto(id):
                 product.descripcion=form.descripcion.data
                 product.imagen=form.imagen.data
                 
-                
+                print(request.files)
+                if request.files:
+                    print("TRUE")
+                    f = request.files['image']
+                    print(f)
+                    #f.save('/static/img/productos/' + secure_filename(f.filename))
+                    if f.filename:
+                        f.save(os.path.join(app.config["IMAGE_UPLOADS"], f.filename))
+                    else:
+                        product.imagen=form.imagen.data
+                    print("Imagen subida: ",f.filename)
                 db.session.commit() #termino la operacion
                 
                 return redirect(url_for('get_products_by_cat'))
@@ -434,6 +466,26 @@ def ver_Pedidos():
     return render_template("AdministrarPedido.html")
 
 
+
+
+
+@app.route("/gabor",methods=["GET", "POST"])
+def cargaImg():
+    if request.method == "POST":
+
+        if request.files:
+            f = request.files['image']
+
+            print(f)
+            if f.filename:
+                #f.save('/static/img/productos/' + secure_filename(f.filename))
+                f.save(os.path.join(app.config["IMAGE_UPLOADS"], f.filename))
+            else:
+                f.save(os.path.join(app.config["IMAGE_UPLOADS"], "VACIO.jpg"))
+            print("Imagen subida: ",f.filename)
+            #Imagen subida:  old-man (1).png
+            #guardar el filename 
+    return render_template("GAA_CargarImagen.html")
 
 
 @app.errorhandler(404)
