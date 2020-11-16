@@ -73,14 +73,16 @@ class Pedido(db.Model):
     producto_id = db.Column(db.Integer, db.ForeignKey('producto.id'))
     #usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
     usuario_id = db.Column(db.Integer)
+    nameProd = db.Column(db.String(40))
     cantidad = db.Column(db.Integer)
     precio_uni = db.Column(db.Float)
     precio_total = db.Column(db.Float)
     estado = db.Column(db.String(20))
 
-    def __init__(self, producto_id, usuario_id, cantidad, precio_uni, precio_total, estado):
+    def __init__(self, producto_id, usuario_id, nameProd, cantidad, precio_uni, precio_total, estado):
         self.producto_id = producto_id
         self.usuario_id = usuario_id
+        self.nameProd = nameProd
         self.cantidad = cantidad
         self.precio_uni = precio_uni
         self.precio_total = precio_total
@@ -104,7 +106,7 @@ productos_schema = ProductoSchema(many=True)
 
 class PedidoSchema(ma.Schema):
     class Meta:
-        fields = ("id", "producto_id", "usuario_id", "cantidad", "precio_uni", "precio_total", "estado")
+        fields = ("id", "producto_id", "usuario_id", "nameProd","cantidad", "precio_uni", "precio_total", "estado")
 pedido_schema = PedidoSchema()
 pedidos_schema = PedidoSchema(many=True)
 #HASTA AQUI TERMINA LA DEFINICION DE LA BASE DE DATOS
@@ -482,15 +484,14 @@ def pedidos():
     pedidos = pedidos_schema.dump(peds)
     return jsonify(pedidos)
 
-@app.route("/verPedidos",methods=["GET"])
+@app.route("/verPedidos",methods=["GET"]) 
 def ver_Pedidos():
     all_pedidos = Pedido.query.all() #devuelve todos los usuarios
-    #print("ALL_USERS: ",type(all_users))
-    #result = usuarios_schema.dump(all_users) #graba la lista de usuario recuperados
-    #print("RESULT: ",type(result))
-    #print(result) 
-    #return jsonify(result) #devulve el resultado al cliente en formato JSON
-    return render_template('AdministrarPedido.html',lista = all_pedidos)
+    aux=0
+    for ped in all_pedidos:
+        aux+=ped.precio_total
+    print("PRECIO TOTALLLLLLL: ",aux)
+    return render_template('AdministrarPedido.html', listaPed = all_pedidos, total_precio = aux)
 
 @app.route("/añadirPedido/<id>",methods=["POST"])
 def añadir_Pedido(id):
@@ -501,11 +502,18 @@ def añadir_Pedido(id):
     print("ID DEL USUARIO ",user_id)
     print("PRECIO UNI DEL PRODUCTO",prod.precio)
 
-    nuevo_pedido=Pedido(prod.id, user_id, 1, prod.precio, prod.precio, "Deseado")
+    nuevo_pedido=Pedido(prod.id, user_id, prod.nombreProd, 1, prod.precio, prod.precio, "Deseado")
     db.session.add(nuevo_pedido) #lo cargo a la BD
     db.session.commit() #termino la operacion
     return redirect(url_for('ver_Pedidos'))
 
+@app.route("/eliminarPedido/<id>", methods=["POST"])
+def eliminar_Pedido(id):
+    ped = Pedido.query.get(id)
+    db.session.delete(ped)
+    db.session.commit()
+    flash("Producto Eliminado Satisfactoriamente") 
+    return redirect(url_for("ver_Pedidos"))
 
 @app.route("/gabor",methods=["GET", "POST"])
 def cargaImg():

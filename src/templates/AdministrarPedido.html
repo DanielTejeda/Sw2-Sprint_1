@@ -34,51 +34,41 @@
                   <th>Id</th>
                   <th>Producto</th>
                   <th>Cantidad</th>
-                  <th>Precio Unitario</th>
-                  <th>Precio Total</th>
+                  <th>Precio Unitario (S/.)</th>
+                  <th>Sub Total (S/.)</th>
                   
                 </tr>
               </thead>
               <tbody>
-                <div>
+                {% for ped in listaPed %}
                   <tr>
-                    <form method="GET">
-                      <td>1</td>
-                      <td>Galletas Morochas</td>
-                      <td>3</td>
-                      <td>S/. 0.7</td>
-                      <td>S/. 2.1</td>
-                      <td>
-                        <form action="#" method="POST">
-                          <button type="submit" class="btn"><i class="fa fa-plus-square"></i></button>
-                        </form>
-                      </td>
-                      <td>
-                        <form action="#" method="POST">
-                          <button type="submit" class="btn"><i class="fa fa-minus-square"></i></button>
-                        </form>
-                      </td>
-                      <td>
-                        <form action="#" method="POST">
-                          <button type="submit" class="btn"><i class="fa fa-trash"></i></button>
-                        </form>
-                      </td>
-                    </form>
+                    <td>{{ ped.id }}</td>
+                    <td>{{ ped.nameProd }}</td>
+                    <td>{{ ped.cantidad }}</td>
+                    <td>{{ ped.precio_uni }}</td>
+                    <td>{{ ped.precio_total }}</td>
+                    <!--<td>{{ ped.estado }}</td>
+                    <td>{{ ped.imagen }}</td>--> 
+                    <td>
+                      <form action="#" method="POST">
+                        <button type="submit" class="btn"><i class="fa fa-plus-square"></i></button>
+                      </form>
+                    </td>
+                    <td>
+                      <form action="#" method="POST">
+                        <button type="submit" class="btn"><i class="fa fa-minus-square"></i></button>
+                      </form>
+                    </td>
+                    <td>
+                      <form action="/eliminarPedido/{{ped.id}}" method="POST">
+                        <button type="submit" class="btn"><i class="fa fa-trash"></i></button>
+                      </form>
+                    </td>
                   </tr>
-
-                  <tr>
-                    <!--
-                    <td>Monto Total</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>17.00</td>
-                      -->
-                    </form>
-                  </tr>
-                </div>
-
+                {% endfor %}
               </tbody>
             </table>
+            <h5>Precio total: S/ {{ total_precio }}</h5>
           </div>
 
 
