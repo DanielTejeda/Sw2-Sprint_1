@@ -507,13 +507,39 @@ def añadir_Pedido(id):
     db.session.commit() #termino la operacion
     return redirect(url_for('ver_Pedidos'))
 
+@app.route("/masPedido/<id>", methods=["POST"])
+def aumentar_Pedido(id):
+    ped = Pedido.query.get(id)
+    prod_id = ped.producto_id
+    prod = Producto.query.get(prod_id)
+    prod_cant = prod.cantidad
+    if ped.cantidad < prod_cant:
+        ped.cantidad += 1
+    ped.precio_total = ped.precio_uni * ped.cantidad 
+    db.session.commit()
+    
+    return redirect(url_for("ver_Pedidos"))
+#flash("Producto Actualizado Satisfactoriamente") 
+
+@app.route("/menosPedido/<id>", methods=["POST"])
+def disminuir_Pedido(id):
+    ped = Pedido.query.get(id)
+    if ped.cantidad>1:
+        ped.cantidad -= 1
+    ped.precio_total = ped.precio_uni * ped.cantidad 
+    db.session.commit()
+     
+    return redirect(url_for("ver_Pedidos"))
+#flash("Producto Actualizado Satisfactoriamente")
+
 @app.route("/eliminarPedido/<id>", methods=["POST"])
 def eliminar_Pedido(id):
     ped = Pedido.query.get(id)
     db.session.delete(ped)
     db.session.commit()
-    flash("Producto Eliminado Satisfactoriamente") 
+     
     return redirect(url_for("ver_Pedidos"))
+#flash("Producto Eliminado Satisfactoriamente")
 
 @app.route("/gabor",methods=["GET", "POST"])
 def cargaImg():

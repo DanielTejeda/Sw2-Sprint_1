@@ -50,12 +50,12 @@
                     <!--<td>{{ ped.estado }}</td>
                     <td>{{ ped.imagen }}</td>--> 
                     <td>
-                      <form action="#" method="POST">
+                      <form action="/masPedido/{{ped.id}}" method="POST">
                         <button type="submit" class="btn"><i class="fa fa-plus-square"></i></button>
                       </form>
                     </td>
                     <td>
-                      <form action="#" method="POST">
+                      <form action="/menosPedido/{{ped.id}}" method="POST">
                         <button type="submit" class="btn"><i class="fa fa-minus-square"></i></button>
                       </form>
                     </td>
