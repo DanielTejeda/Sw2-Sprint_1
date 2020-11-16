@@ -486,7 +486,8 @@ def pedidos():
 
 @app.route("/verPedidos",methods=["GET"]) 
 def ver_Pedidos():
-    all_pedidos = Pedido.query.all() #devuelve todos los usuarios
+    #all_pedidos = Pedido.query.all()
+    all_pedidos=Pedido.query.filter_by(usuario_id=(session["id_user"]))
     aux=0
     for ped in all_pedidos:
         aux+=ped.precio_total
