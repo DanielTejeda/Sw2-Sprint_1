@@ -471,20 +471,26 @@ def update_producto(id):
                 return redirect(url_for('get_products_by_cat'))
         return("ERROR")
         
-        
 
-
-@app.route("/verPedidos",methods=["GET"])
-def ver_Pedidos():
-    return render_template("AdministrarPedido.html")
 
 #METODO AUXILIAR PARA COMPROBACION EN POSTMAN
 @app.route("/pedidos",methods=["GET"])
 def pedidos():
-    peds= Producto.query.all()
+    #peds= Producto.query.all()
+    peds= Pedido.query.all()
     #peds = db.session.query(Pedido,Producto).join(Producto).all()
-    pedidos = productos_schema.dump(peds)
+    pedidos = pedidos_schema.dump(peds)
     return jsonify(pedidos)
+
+@app.route("/verPedidos",methods=["GET"])
+def ver_Pedidos():
+    all_pedidos = Pedido.query.all() #devuelve todos los usuarios
+    #print("ALL_USERS: ",type(all_users))
+    #result = usuarios_schema.dump(all_users) #graba la lista de usuario recuperados
+    #print("RESULT: ",type(result))
+    #print(result) 
+    #return jsonify(result) #devulve el resultado al cliente en formato JSON
+    return render_template('AdministrarPedido.html',lista = all_pedidos)
 
 @app.route("/añadirPedido/<id>",methods=["POST"])
 def añadir_Pedido(id):
