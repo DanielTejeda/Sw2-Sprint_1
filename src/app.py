@@ -496,13 +496,19 @@ def ver_Pedidos():
 def añadir_Pedido(id):
     prod = Producto.query.get(id)
     user_id = session["id_user"] 
-    
+    ped=Pedido.query.filter_by(producto_id=id).first()
+    prod_cant = prod.cantidad
     print("ID DEL PRODUCTO ", prod.id)
     print("ID DEL USUARIO ",user_id)
     print("PRECIO UNI DEL PRODUCTO",prod.precio)
-
-    nuevo_pedido=Pedido(prod.id, user_id, prod.nombreProd, 1, prod.precio, prod.precio, "Deseado")
-    db.session.add(nuevo_pedido) #lo cargo a la BD
+    
+    if prod.id != ped.producto_id:
+        nuevo_pedido=Pedido(prod.id, user_id, prod.nombreProd, 1, prod.precio, prod.precio, "Deseado")
+        db.session.add(nuevo_pedido) #lo cargo a la BD
+    else:
+        if ped.cantidad < prod_cant:
+            ped.cantidad += 1
+            ped.precio_total = ped.precio_uni * ped.cantidad
     db.session.commit() #termino la operacion
     return redirect(url_for('ver_Pedidos'))
 
