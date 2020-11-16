@@ -266,7 +266,20 @@ def create_product():
         return render_template("AgregarProducto.html",form=form)
     else:
         if form.validate_on_submit():
-            nuevo_producto=Producto(nombreProd=form.nombreProd.data, precio=form.precio.data, cantidad=form.cantidad.data, categoria=form.categoria.data, descripcion=form.descripcion.data, imagen=form.imagen.data)
+            nombreImg = ""
+            if request.files:
+                    f = request.files['image']
+                    print(f)
+                    #f.save('/static/img/productos/' + secure_filename(f.filename))
+                    if f.filename:
+                        f.save(os.path.join(app.config["IMAGE_UPLOADS"], f.filename))
+                        nombreImg = f.filename
+                    else:
+                        #product.imagen=form.imagen.data
+                        nombreImg = "algo.jpg"
+                    print("Imagen subida: ",f.filename)
+
+            nuevo_producto=Producto(nombreProd=form.nombreProd.data, precio=form.precio.data, cantidad=form.cantidad.data, categoria=form.categoria.data, descripcion=form.descripcion.data, imagen=nombreImg)
             db.session.add(nuevo_producto) #lo cargo a la BD
             db.session.commit() #termino la operacion
             #user=Usuario.query.filter_by(nombre=(session["user"])).first()
@@ -441,8 +454,7 @@ def update_producto(id):
                 product.categoria=form.categoria.data
                 product.descripcion=form.descripcion.data
                 product.imagen=form.imagen.data
-                
-                print(request.files)
+
                 if request.files:
                     print("TRUE")
                     f = request.files['image']

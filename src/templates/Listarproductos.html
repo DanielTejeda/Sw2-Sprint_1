@@ -97,14 +97,14 @@
                       <td>{{ prod.imagen }}</td>
                       <td>
                         <form action="/actualizarProducto/{{prod.id}}" method="GET">
-                          <a href='ActualizarProducto'><button type="submit">Editar Producto</button></a>
-                        
+                          <button type="submit" class="btn"><i class="fa fa-pencil"></i></button>
+                          
                         </form>
                       </td>
                       
                       <td>
                         <form action="/eliminarProducto/{{prod.id}}" method="POST">
-                          <button type="submit">Eliminar Producto</button>
+                          <button type="submit" class="btn"><i class="fa fa-trash"></i></button>
                           <!--
                         <input type="hidden" name="idaeditar"/> <input type="submit" value="Eliminar Producto"/>-->
                         </form>
