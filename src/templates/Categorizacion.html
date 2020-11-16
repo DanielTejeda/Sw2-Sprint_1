@@ -44,8 +44,8 @@
             <div class="card-body">
               <h4 class="card-title">{{ prod.nombreProd }}</h4>
               <h6>S/. {{ prod.precio }}</h5>
-              <form action="/eliminarProducto/{{prod.id}}" method="POST">
-                <button type="submit" class="boton">Agregar</button>
+              <form action="/añadirPedido/{{prod.id}}" method="POST">
+                <button type="submit" class="boton" onclick="alert('Producto agregado')">Agregar</button>
               </form>
               <div class="card-footer">
                 <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>

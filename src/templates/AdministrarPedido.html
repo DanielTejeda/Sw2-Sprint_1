@@ -6,38 +6,20 @@
 <div class="container">
 
   <div class="row">
-
+    <!--
     <div class="col-lg-3">
 
       <h1 class="my-4">Bienvenido a D'Juan Market</h1>
 
-    </div>
-    <!-- /.col-lg-3 -->
+    </div>-->
 
-    <div class="col-lg-9">
-
-      <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
-        <ol class="carousel-indicators">
-          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-        </ol>
-
-        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Anterior</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Siguiente</span>
-        </a>
-      </div>
+    <div class="col-lg-12">
 
       <div class="row">
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
           <div
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Administrar Pedido Actual</h1>
+            <h1 class="h2">Mis pedidos</h1>
 
             <div class="btn-toolbar mb-2 mb-md-0">
               <div class="btn-group mr-2">
@@ -56,7 +38,7 @@
                   <th>Cantidad</th>
                   <th>Precio Unitario</th>
                   <th>Precio Total</th>
-                  <th>Opciones</th>
+                  
                 </tr>
               </thead>
               <tbody>
@@ -68,9 +50,21 @@
                       <td>3</td>
                       <td>S/. 0.7</td>
                       <td>S/. 2.1</td>
-                      <td><button type="submit" class="btn btn-sm btn-outline-info">Añadir </button></td>
-                      
-                      <td><button type="submit" class="btn btn-sm btn-outline-info">Eliminar</button></td>
+                      <td>
+                        <form action="#" method="POST">
+                          <button type="submit" class="btn"><i class="fa fa-plus-square"></i></button>
+                        </form>
+                      </td>
+                      <td>
+                        <form action="#" method="POST">
+                          <button type="submit" class="btn"><i class="fa fa-minus-square"></i></button>
+                        </form>
+                      </td>
+                      <td>
+                        <form action="#" method="POST">
+                          <button type="submit" class="btn"><i class="fa fa-trash"></i></button>
+                        </form>
+                      </td>
                     </form>
                   </tr>
 

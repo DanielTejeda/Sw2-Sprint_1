@@ -71,7 +71,8 @@ class Producto(db.Model):
 class Pedido(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     producto_id = db.Column(db.Integer, db.ForeignKey('producto.id'))
-    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
+    #usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
+    usuario_id = db.Column(db.Integer)
     cantidad = db.Column(db.Integer)
     precio_uni = db.Column(db.Float)
     precio_total = db.Column(db.Float)
@@ -477,8 +478,27 @@ def update_producto(id):
 def ver_Pedidos():
     return render_template("AdministrarPedido.html")
 
+#METODO AUXILIAR PARA COMPROBACION EN POSTMAN
+@app.route("/pedidos",methods=["GET"])
+def pedidos():
+    peds= Producto.query.all()
+    #peds = db.session.query(Pedido,Producto).join(Producto).all()
+    pedidos = productos_schema.dump(peds)
+    return jsonify(pedidos)
 
+@app.route("/añadirPedido/<id>",methods=["POST"])
+def añadir_Pedido(id):
+    prod = Producto.query.get(id)
+    user_id = session["id_user"] 
+    
+    print("ID DEL PRODUCTO ", prod.id)
+    print("ID DEL USUARIO ",user_id)
+    print("PRECIO UNI DEL PRODUCTO",prod.precio)
 
+    nuevo_pedido=Pedido(prod.id, user_id, 1, prod.precio, prod.precio, "Deseado")
+    db.session.add(nuevo_pedido) #lo cargo a la BD
+    db.session.commit() #termino la operacion
+    return redirect(url_for('ver_Pedidos'))
 
 
 @app.route("/gabor",methods=["GET", "POST"])
