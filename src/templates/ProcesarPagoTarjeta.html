@@ -1,0 +1,79 @@
+{% extends 'base/base_user.html' %}
+
+{% block content %}
+
+<!-- Page Content -->
+<div class="container">
+
+  <div class="row">
+    <!--
+      <div class="col-lg-3">
+        <h1 class="my-4">Bienvenido a D'Juan Market</h1>
+      </div>
+       /.col-lg-3 -->
+    <div class="col-lg-12">
+      <div class="row">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+          <div class="justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h2>Procesamiento de Pago</h2>
+            <br>
+            <h3>Pago con tarjeta</h3>
+            <br>
+            <form>
+              <div class="form-group">
+                <label for="c1">Titular de la tarjeta</label>
+                <!--<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">-->
+                <input type="text" name="" id="c1" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="c2">Número de la tarjeta</label>
+                <input type="text" name="" id="c2" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="c3">Código Postal</label>
+                <input type="text" name="" id="c3" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="c4">Fecha de Vencimiento</label>
+                <input type="text" name="" id="c4" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="c5">Titular de tarjeta</label>
+                <input type="text" name="" id="c5" class="form-control">
+              </div>
+              <!--
+              <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1">
+              </div>-->
+              <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Acepto todos los términos y condiciones</label>
+              </div>
+              <button type="submit" class="btn btn-primary">Efectuar Pago</button>
+            </form>
+
+
+          </div>
+
+
+        </main>
+
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.col-lg-12-->
+
+  </div>
+  <!-- /.row -->
+
+</div>
+<!-- /.container -->
+
+{% block jScript %}
+<!--
+      BLOQUE PARA COLOCAR ARCHIVOS JS
+    -->
+{% endblock %}
+
+{% endblock %}

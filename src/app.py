@@ -392,9 +392,7 @@ def see_products(cat="ALL"):
     #return jsonify(res) #devuelve el esquema convertido a json
     return render_template('Categorizacion.html',listaProd = p_filtrados)
 
-@app.route('/compraprocesada',methods=['GET'])
-def process():
-    return render_template('ProcesarCompra.html')
+
 
 @app.route("/logout", methods=['GET','POST']) 
 def logout():
@@ -541,6 +539,10 @@ def eliminar_Pedido(id):
      
     return redirect(url_for("ver_Pedidos"))
 #flash("Producto Eliminado Satisfactoriamente")
+
+@app.route("/procesarPedidos", methods=["GET"])
+def procesar_Pedidos():
+    return render_template('ProcesarPagoTarjeta.html')
 
 @app.route("/gabor",methods=["GET", "POST"])
 def cargaImg():
