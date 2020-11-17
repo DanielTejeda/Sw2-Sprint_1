@@ -148,6 +148,12 @@ def get_users():
     #return jsonify(result) #devulve el resultado al cliente en formato JSON
     return render_template('ListarUsuariosAdmin.html',lista = all_users)
 
+#URL para listar ordenes de compra 
+
+@app.route("/listarOrdenes",methods=["GET"])
+def get_ordenes():
+    return render_template('Listarordenes.html')
+
 
 #URL para buscar un Usuario específico
 @app.route("/listarUsuarios/<id>", methods=["GET"])
@@ -243,6 +249,10 @@ class ProductForm(FlaskForm):#Crea el formulario de regisgtro de productos
 
 #LISTAR PRODUCTOS POR CATEGORIA (LISTA TODOS POR DEFAULT)
 @app.route("/admin/", methods=["GET"])
+
+
+
+
 @app.route("/admin/<cat>", methods=["GET"])
 def get_products_by_cat(cat="ALL"):
     products = Producto.query.all() #devuelve una lista
@@ -396,6 +406,7 @@ def see_products(cat="ALL"):
 
 @app.route("/logout", methods=['GET','POST']) 
 def logout():
+    
     if "user" in session:
         session.pop("user")
     if "id_user" in session:

@@ -25,10 +25,10 @@
         <main role="main" class="col">
             <!-- col-md-9 ml-sm-auto col-lg-10 px-md-4  -->
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Mis usuarios</h1>
+            <h1 class="h2">Lista de ordenes de compra</h1>
             <div class="btn-toolbar mb-2 mb-md-0"> 
               <div class="btn-group mr-2">
-                <a href="/listarUsuarios"><button type="button" class="btn btn-sm btn-outline-secondary">Actualizar lista</button></a>
+                <a href="/listarOrdenes"><button type="button" class="btn btn-sm btn-outline-secondary">Actualizar lista</button></a>
               </div>
               <!--
               <div class="btn-group mr-2">
@@ -48,17 +48,19 @@
               <form action="/" method="POST"></form>
                 <thead>                   
                   <tr>
-                    <th>Código</th>
-                    <th>Nombre</th>
-                    <th>Correo</th>
+                    <th>ID usuario</th>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Monto Pagado</th>
+                    <th>Estado</th>
+                    <th>Cambiar</th>
+                    <th>Eliminar</th>
                   </tr>
                 </thead>
                 <tbody>
                     {% for item in lista %}
                         <tr>
-                            <td> {{ item.id }}</td>
-                            <td> {{ item.nombre }}</td>
-                            <td> {{ item.email }}</td>
+                            
                         </tr>
 
                     {% endfor %}
