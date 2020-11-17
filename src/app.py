@@ -17,8 +17,8 @@ app.config['SECRET_KEY']='estoessecretoXD!'
 
 Bootstrap(app)
 # PostreSQL Connection
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1234@localhost/postgres'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/postgres'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1234@localhost/postgres'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/postgres'
 #para q no mande alertas cuando hagamos modificaciones (opcional)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False 
 # MySQL Connection
@@ -29,8 +29,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 #mysql = MySQL(app)
 
 #ruta absoluta para guardar las imagenes en en pc de Daniel
-app.config['IMAGE_UPLOADS'] = 'C:/Users/Daniel/Desktop/D-Juan-Market/Sprint_2/Sw2-Sprint_1/src/static/img/productos'
-
+#app.config['IMAGE_UPLOADS'] = 'C:/Users/Daniel/Desktop/D-Juan-Market/Sprint_2/Sw2-Sprint_1/src/static/img/productos'
+app.config['IMAGE_UPLOADS'] = 'C:/Users/Adriana/Documents/2020-2/SOFTWARE/INTENTOMIL/Sw2-Sprint_1/src/static/img/productos'
 #instancia de la bd postrge
 db = SQLAlchemy(app) #para usar la bd en otra aplicaciones colocar () sin mas
 #instancia de marshmallow
@@ -502,14 +502,21 @@ def añadir_Pedido(id):
     print("ID DEL USUARIO ",user_id)
     print("PRECIO UNI DEL PRODUCTO",prod.precio)
     
-    if prod.id != ped.producto_id:
-        nuevo_pedido=Pedido(prod.id, user_id, prod.nombreProd, 1, prod.precio, prod.precio, "Deseado")
-        db.session.add(nuevo_pedido) #lo cargo a la BD
+    if ped:
+        if prod.id != ped.producto_id:
+            nuevo_pedido=Pedido(prod.id, user_id, prod.nombreProd, 1, prod.precio, prod.precio, "Deseado")
+            db.session.add(nuevo_pedido) 
+            #lo cargo a la BD
+        else:
+            if ped.cantidad < prod_cant:
+                ped.cantidad += 1
+                ped.precio_total = ped.precio_uni * ped.cantidad
+        db.session.commit() 
+        #termino la operacion
     else:
-        if ped.cantidad < prod_cant:
-            ped.cantidad += 1
-            ped.precio_total = ped.precio_uni * ped.cantidad
-    db.session.commit() #termino la operacion
+        nuevo_pedido=Pedido(prod.id, user_id, prod.nombreProd, 1, prod.precio, prod.precio, "Deseado")
+        db.session.add(nuevo_pedido)
+        db.session.commit() 
     return redirect(url_for('ver_Pedidos'))
 
 @app.route("/masPedido/<id>", methods=["POST"])
