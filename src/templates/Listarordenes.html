@@ -58,10 +58,16 @@
                   </tr>
                 </thead>
                 <tbody>
-                    {% for item in lista %}
-                        <tr>
-                            
-                        </tr>
+                    {% for item in listaOrd %}
+                      <tr>
+                        <td> {{ item.usuar_id }}</td>
+                        <td> {{ item.namProd }}</td>
+                        <td> {{ item.cant }}</td>
+                        <td>{{ item.monto_total}}</td>
+                        <td>{{item.status}}</td>
+                        <td></td>
+                        <td></td>
+                      </tr>
 
                     {% endfor %}
                     <!--

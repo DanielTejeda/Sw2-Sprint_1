@@ -88,6 +88,23 @@ class Pedido(db.Model):
         self.precio_total = precio_total
         self.estado = estado
 
+class Orden(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    usuar_id = db.Column(db.Integer)
+    namProd = db.Column(db.String(40))
+    cant = db.Column(db.Integer)
+    monto_total = db.Column(db.Float)
+    status = db.Column(db.String(20))
+    def __init__(self, usuar_id, namProd, cant,  monto_total, status):
+        self.usuar_id = usuar_id
+        self.namProd= namProd
+        self.cant = cant
+        self.monto_total = monto_total
+        self.status= status
+
+
+
+
 #sentencia para crear todas las tablas
 db.create_all()
 
@@ -109,6 +126,14 @@ class PedidoSchema(ma.Schema):
         fields = ("id", "producto_id", "usuario_id", "nameProd","cantidad", "precio_uni", "precio_total", "estado")
 pedido_schema = PedidoSchema()
 pedidos_schema = PedidoSchema(many=True)
+
+class OrdenSchema(ma.Schema):
+    class Meta:
+        fields =("id","usuar_id","namProd","cant","monto_total","status")
+orden_schema = OrdenSchema()
+ordenes_schema = OrdenSchema(many=True)
+
+
 #HASTA AQUI TERMINA LA DEFINICION DE LA BASE DE DATOS
 
 @app.route('/')
@@ -152,7 +177,10 @@ def get_users():
 
 @app.route("/listarOrdenes",methods=["GET"])
 def get_ordenes():
-    return render_template('Listarordenes.html')
+    all_ordenes = Orden.query.all()
+    
+
+    return render_template('Listarordenes.html',listaOrd=all_ordenes)
 
 
 #URL para buscar un Usuario específico
@@ -559,7 +587,7 @@ def añadir_Pedido(id):
 def procesar():
     all_pedidos=Pedido.query.filter_by(usuario_id=(session["id_user"]))
     products = Producto.query.all()
-    
+    userid = session["id_user"] 
 
     for ped in all_pedidos:
         x=ped.producto_id
@@ -569,6 +597,8 @@ def procesar():
             b=producto.cantidad
             if x==a:
                 producto.cantidad=b-y
+                nueva_orden=Orden(userid,producto.nombreProd,y,ped.precio_total,"Pagado")
+                db.session.add(nueva_orden)
                 db.session.commit()
     
     return render_template('Compradoconexito.html')
