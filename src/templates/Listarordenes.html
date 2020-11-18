@@ -65,8 +65,15 @@
                         <td> {{ item.cant }}</td>
                         <td>{{ item.monto_total}}</td>
                         <td>{{item.status}}</td>
-                        <td></td>
-                        <td><form action="" method="POST">
+                        <td>
+                          
+                          <form action="/entregar/{{item.id}}" method="POST">
+                            <button type="submit" class="btn btn-success">Enviar</i></button>
+                            
+                          </form>
+                        </td>
+                        <td>
+                          <form action="/eliminarOrden/{{item.id}}" method="POST">
                           <button type="submit" class="btn"><i class="fa fa-trash"></i></button>
                           <!--
                         <input type="hidden" name="idaeditar"/> <input type="submit" value="Eliminar Producto"/>-->

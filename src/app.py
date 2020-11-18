@@ -638,6 +638,14 @@ def disminuir_Pedido(id):
     return redirect(url_for("ver_Pedidos"))
 #flash("Producto Actualizado Satisfactoriamente")
 
+@app.route("/entregar/<id>", methods=["POST"])
+def entregar_Pedido(id):
+    ord = Orden.query.get(id)
+    ord.status='Enviado'
+    db.session.commit()
+     
+    return redirect(url_for('get_ordenes'))
+
 @app.route("/eliminarPedido/<id>", methods=["POST"])
 def eliminar_Pedido(id):
     ped = Pedido.query.get(id)
@@ -646,6 +654,14 @@ def eliminar_Pedido(id):
      
     return redirect(url_for("ver_Pedidos"))
 #flash("Producto Eliminado Satisfactoriamente")
+@app.route("/eliminarOrden/<id>",methods=["POST"])
+def eliminar_Orden(id):
+    ord= Orden.query.get(id)
+    db.session.delete(ord)
+    db.session.commit()
+
+    return redirect(url_for('get_ordenes'))
+
 
 @app.route("/procesarPedidos", methods=["GET"])
 def procesar_Pedidos():
