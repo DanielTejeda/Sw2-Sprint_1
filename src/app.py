@@ -557,9 +557,20 @@ def añadir_Pedido(id):
 
 @app.route("/Procesado",methods=["GET"])
 def procesar():
+    all_pedidos=Pedido.query.filter_by(usuario_id=(session["id_user"]))
+    products = Producto.query.all()
     
 
-
+    for ped in all_pedidos:
+        x=ped.producto_id
+        y=ped.cantidad
+        for producto in products:
+            a=producto.id
+            b=producto.cantidad
+            if x==a:
+                producto.cantidad=b-y
+                db.session.commit()
+    
     return render_template('Compradoconexito.html')
 
 @app.route("/masPedido/<id>", methods=["POST"])
