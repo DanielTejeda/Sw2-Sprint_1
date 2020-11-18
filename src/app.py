@@ -569,22 +569,28 @@ def añadir_Pedido(id):
     print("ID DEL USUARIO ",user_id)
     print("PRECIO UNI DEL PRODUCTO",prod.precio)
     
-    if ped:
-        if prod.id != ped.producto_id:
-            nuevo_pedido=Pedido(prod.id, user_id, prod.nombreProd, 1, prod.precio, prod.precio, "Deseado")
-            db.session.add(nuevo_pedido) 
-            #lo cargo a la BD
+    if prod_cant >0:
+        if ped:
+            if prod.id != ped.producto_id:
+                
+                nuevo_pedido=Pedido(prod.id, user_id, prod.nombreProd, 1, prod.precio, prod.precio, "Deseado")
+                db.session.add(nuevo_pedido) 
+                #lo cargo a la BD
+            else:
+                
+                if ped.cantidad < prod_cant :
+                    ped.cantidad += 1
+                    ped.precio_total = ped.precio_uni * ped.cantidad
+            db.session.commit() 
+            #termino la operacion
         else:
-            if ped.cantidad < prod_cant:
-                ped.cantidad += 1
-                ped.precio_total = ped.precio_uni * ped.cantidad
-        db.session.commit() 
-        #termino la operacion
+            nuevo_pedido=Pedido(prod.id, user_id, prod.nombreProd, 1, prod.precio, prod.precio, "Deseado")
+            db.session.add(nuevo_pedido)
+            db.session.commit() 
+        return redirect(url_for('ver_Pedidos'))
     else:
-        nuevo_pedido=Pedido(prod.id, user_id, prod.nombreProd, 1, prod.precio, prod.precio, "Deseado")
-        db.session.add(nuevo_pedido)
-        db.session.commit() 
-    return redirect(url_for('ver_Pedidos'))
+        
+        return redirect(url_for('see_products'))
 
 @app.route("/Procesado",methods=["GET"])
 def procesar():
@@ -602,6 +608,7 @@ def procesar():
                 producto.cantidad=b-y
                 nueva_orden=Orden(userid,producto.nombreProd,y,ped.precio_total,"Pagado")
                 db.session.add(nueva_orden)
+                db.session.delete(ped)
                 db.session.commit()
     
     return render_template('Compradoconexito.html')
