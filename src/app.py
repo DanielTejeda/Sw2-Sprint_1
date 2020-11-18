@@ -88,6 +88,7 @@ class Pedido(db.Model):
         self.precio_total = precio_total
         self.estado = estado
 
+
 class Orden(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     usuar_id = db.Column(db.Integer)
@@ -101,7 +102,6 @@ class Orden(db.Model):
         self.cant = cant
         self.monto_total = monto_total
         self.status= status
-
 
 
 
@@ -132,6 +132,9 @@ class OrdenSchema(ma.Schema):
         fields =("id","usuar_id","namProd","cant","monto_total","status")
 orden_schema = OrdenSchema()
 ordenes_schema = OrdenSchema(many=True)
+
+
+
 
 
 #HASTA AQUI TERMINA LA DEFINICION DE LA BASE DE DATOS
@@ -177,9 +180,9 @@ def get_users():
 
 @app.route("/listarOrdenes",methods=["GET"])
 def get_ordenes():
-    all_ordenes = Orden.query.all()
     
 
+    all_ordenes = Orden.query.all()
     return render_template('Listarordenes.html',listaOrd=all_ordenes)
 
 
