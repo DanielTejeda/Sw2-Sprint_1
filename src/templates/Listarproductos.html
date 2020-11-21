@@ -97,7 +97,8 @@
                       <td>{{ prod.precio }}</td>
                       <td>{{ prod.categoria }}</td>
                       <td>{{ prod.cantidad }}</td>
-                      <td>{{ prod.imagen }}</td>
+                      <!--<td>{{ prod.imagen }}</td>-->
+                      <td><img class="" height="75px" width="100px" src="../static/img/productos/{{prod.imagen}}" alt="F"></td>
                       <td>
                         <form action="/actualizarProducto/{{prod.id}}" method="GET">
                           <button type="submit" class="btn"><i class="fa fa-pencil"></i></button>
