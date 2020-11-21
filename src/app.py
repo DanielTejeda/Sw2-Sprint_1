@@ -8,6 +8,7 @@ from wtforms.validators import InputRequired, Email, Length, Optional
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 import os
+import uuid
 
 import views
 # initializations
@@ -294,9 +295,9 @@ class ProductForm(FlaskForm):  # Crea el formulario de regisgtro de productos
     categoria = SelectField('categoria', validators=[InputRequired()], choices=[("LA", "Lácteos"), (
         "EN", "Enlatados"), ("CE", "Carnes y embutidos"), ("PL", "Productos de limpieza"), ("FV", "Frutas y Verduras")])
     descripcion = TextAreaField('descripcion', validators=[
-                                Optional(), Length(min=2, max=100)])
+                                Optional(), Length(min=1, max=100)])
     imagen = StringField('imagen', validators=[
-                         Optional(), Length(min=2, max=50)])
+                         Optional(), Length(min=2, max=100)])
 
 
 # @app.route("/admin",methods=["GET"])
@@ -337,16 +338,19 @@ def create_product():
                 print(f)
                 #f.save('/static/img/productos/' + secure_filename(f.filename))
                 if f.filename:
+                    unique=str(uuid.uuid4())+".jpg"
+                    print(unique)
                     f.save(os.path.join(
-                        app.config["IMAGE_UPLOADS"], f.filename))
-                    nombreImg = f.filename
+                        #app.config["IMAGE_UPLOADS"], f.filename))
+                        #app.config["IMAGE_UPLOADS"], secure_filename(f.filename)))
+                        app.config["IMAGE_UPLOADS"], unique))
+                    nombreImg = unique
                 else:
                     # product.imagen=form.imagen.data
-                    nombreImg = "algo.jpg"
+                    nombreImg = "VACIO.jpg"
                 print("Imagen subida: ", f.filename)
 
-            nuevo_producto = Producto(nombreProd=form.nombreProd.data, precio=form.precio.data, cantidad=form.cantidad.data,
-                                      categoria=form.categoria.data, descripcion=form.descripcion.data, imagen=nombreImg)
+            nuevo_producto = Producto(nombreProd=form.nombreProd.data, precio=form.precio.data, cantidad=form.cantidad.data,categoria=form.categoria.data, descripcion=form.descripcion.data, imagen=nombreImg)
             db.session.add(nuevo_producto)  # lo cargo a la BD
             db.session.commit()  # termino la operacion
             # user=Usuario.query.filter_by(nombre=(session["user"])).first()
@@ -416,9 +420,12 @@ def login():
     if form.validate_on_submit():
         #print("primer" + session["user"])
         if form.email.data == 'root' and form.contra.data == '1234':
-            session["user"] = 'root'
+            #session["user"] = 'root'
+            #session["status"] = 'active'
+            #session["id_user"] = '1'
+            session["admin"] = 'root'
             session["status"] = 'active'
-            session["id_user"] = '1'
+            session["id_admin"] = '300'
             print(session)
             return redirect('/admin/')
 
@@ -469,7 +476,13 @@ def see_products(cat="ALL"):
 
 @app.route("/logoutadmin", methods=['GET'])
 def logoutadmin():
-    session.clear()
+    #session.clear() #elimina el id de usuario tbm
+    if "admin" in session:
+        session.pop("admin")
+    if "status" in session:
+        session.pop("status")
+    if "id_admin" in session:
+        session.pop("id_admin")
     return redirect('/login')
 
 
@@ -549,8 +562,11 @@ def update_producto(id):
                 print(f)
                 #f.save('/static/img/productos/' + secure_filename(f.filename))
                 if f.filename:
+                    unique=str(uuid.uuid4())+".jpg"
+                    print(unique)
                     f.save(os.path.join(
-                        app.config["IMAGE_UPLOADS"], f.filename))
+                        app.config["IMAGE_UPLOADS"], unique))
+                        #app.config["IMAGE_UPLOADS"], secure_filename(f.filename)))
                 else:
                     product.imagen = form.imagen.data
                 print("Imagen subida: ", f.filename)
@@ -715,7 +731,10 @@ def cargaImg():
             print(f)
             if f.filename:
                 #f.save('/static/img/productos/' + secure_filename(f.filename))
-                f.save(os.path.join(app.config["IMAGE_UPLOADS"], f.filename))
+                unique=str(uuid.uuid4())+".jpg"
+                print("UNIQUE: ",unique)
+                f.save(os.path.join(app.config["IMAGE_UPLOADS"], unique))
+                #f.save(os.path.join(app.config["IMAGE_UPLOADS"], f.filename))
             else:
                 f.save(os.path.join(app.config["IMAGE_UPLOADS"], "VACIO.jpg"))
             print("Imagen subida: ", f.filename)
