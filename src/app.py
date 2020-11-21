@@ -641,10 +641,12 @@ def añadir_Pedido(id):
 @app.route("/Procesado", methods=["GET"])
 def procesar():
     all_pedidos = Pedido.query.filter_by(usuario_id=(session["id_user"]))
+    all_ped_aux = all_pedidos
     products = Producto.query.all()
     userid = session["id_user"]
-
+    
     for ped in all_pedidos:
+
         x = ped.producto_id
         y = ped.cantidad
         for producto in products:
@@ -718,7 +720,14 @@ def eliminar_Orden(id):
 
 @app.route("/procesarPedidos", methods=["GET"])
 def procesar_Pedidos():
-    return render_template('ProcesarPagoTarjeta.html')
+    all_pedidos = Pedido.query.filter_by(usuario_id=(session["id_user"]))
+    aux = 0
+
+    for ped in all_pedidos:
+        aux += ped.precio_total
+    print("PRECIO TOTALLLLLLL: ", aux)
+
+    return render_template('ProcesarPagoTarjeta.html',listaPed=all_pedidos, total_precio=aux)
 
 
 @app.route("/gabor", methods=["GET", "POST"])
