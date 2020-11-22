@@ -114,46 +114,36 @@ db.create_all()
 
 # creacion de esquema para Usuario
 
-
 class UsuarioSchema(ma.Schema):
     class Meta:
         # señalo campos que quiero cada vez que interactue con el esquema
         fields = ('id', 'nombre', 'contra', 'email', 'telefono')
 
-
 usuario_schema = UsuarioSchema()  # permite interactuar con un usuario a la vez
 usuarios_schema = UsuarioSchema(many=True)  # con varios
-
 
 class ProductoSchema(ma.Schema):
     class Meta:
         fields = ("id", "nombreProd", "precio", "cantidad",
                   "categoria", "descripcion", "imagen")
 
-
 producto_schema = ProductoSchema()
 productos_schema = ProductoSchema(many=True)
-
 
 class PedidoSchema(ma.Schema):
     class Meta:
         fields = ("id", "producto_id", "usuario_id", "nameProd",
                   "cantidad", "precio_uni", "precio_total", "estado")
 
-
 pedido_schema = PedidoSchema()
 pedidos_schema = PedidoSchema(many=True)
-
 
 class OrdenSchema(ma.Schema):
     class Meta:
         fields = ("id", "usuar_id", "namProd", "cant", "monto_total", "status")
 
-
 orden_schema = OrdenSchema()
 ordenes_schema = OrdenSchema(many=True)
-
-
 # HASTA AQUI TERMINA LA DEFINICION DE LA BASE DE DATOS
 
 @app.route('/')
@@ -165,7 +155,7 @@ def Index():
 # ///////////////////////////////////////
 # URL para crear Usuarios
 
-
+#METODO DE PRUEBA
 @app.route('/crearUsuario', methods=['POST'])
 def create_user():
     # print(request.json)
@@ -188,27 +178,32 @@ def create_user():
 
 # URL para listar Usuarios
 
-
+#ADMIN
 @app.route("/listarUsuarios", methods=["GET"])
 def get_users():
+    if "id_user" in session:
+        return redirect(url_for('Index'))
+    if "id_admin" not in session:
+        return redirect(url_for('Index'))
     all_users = Usuario.query.all()  # devuelve todos los usuarios
-    #print("ALL_USERS: ",type(all_users))
     # result = usuarios_schema.dump(all_users) #graba la lista de usuario recuperados
     #print("RESULT: ",type(result))
-    # print(result)
     # return jsonify(result) #devulve el resultado al cliente en formato JSON
     return render_template('ListarUsuariosAdmin.html', lista=all_users)
 
 # URL para listar ordenes de compra
 
-
+#ADMIN
 @app.route("/listarOrdenes", methods=["GET"])
 def get_ordenes():
-
+    if "id_user" in session:
+        return redirect(url_for('Index'))
+    if "id_admin" not in session:
+        return redirect(url_for('Index'))
     all_ordenes = Orden.query.all()
     return render_template('Listarordenes.html', listaOrd=all_ordenes)
 
-
+#METODO DE PRUEBA
 # URL para buscar un Usuario específico
 @app.route("/listarUsuarios/<id>", methods=["GET"])
 def get_user(id):
@@ -218,11 +213,16 @@ def get_user(id):
 
 # URL para actualizar usuario por id      tbm funcion con metodo POST x si hay error en el front
 
-
+#USER
 @app.route("/actualizarUsuario", methods=["GET", "POST"])
 def update_user():
+    if "id_user" not in session:
+        return redirect(url_for('Index'))
+    if "id_admin" in session:
+        return redirect(url_for('Index'))
     form = RegisterForm()
     id = session["id_user"]
+
     # recupera al usuario
     user = Usuario.query.get(id)
     print("GAAAAAAAAA")
@@ -262,9 +262,10 @@ def update_user():
         db.session.commit()
         return usuario_schema.jsonify(user)'''
 
-
+#USER
 @app.route("/eliminarUsuario", methods=["POST"])
 def delete_user():
+    #no valido xq si no hay user en la sesion no podra eliminar nada
     id = session["id_user"]
     user = Usuario.query.get(id)  # busca al usuario
     print(user)
@@ -299,15 +300,15 @@ class ProductForm(FlaskForm):  # Crea el formulario de regisgtro de productos
     imagen = StringField('imagen', validators=[
                          Optional(), Length(min=2, max=100)])
 
-
-# @app.route("/admin",methods=["GET"])
-# def indexAdmin():
-#    return render_template("Listarproductos.html")
-
+#ADMIN
 # LISTAR PRODUCTOS POR CATEGORIA (LISTA TODOS POR DEFAULT)
 @app.route("/admin/", methods=["GET"])
 @app.route("/admin/<cat>", methods=["GET"])
 def get_products_by_cat(cat="ALL"):
+    if "id_user" in session:
+        return redirect(url_for('Index'))
+    if "id_admin" not in session:
+        return redirect(url_for('Index'))
     products = Producto.query.all()  # devuelve una lista
     p_filtrados = []  # lista vacia
     cat = request.args.get('cat')
@@ -324,9 +325,13 @@ def get_products_by_cat(cat="ALL"):
     # return jsonify(res) #devuelve el esquema convertido a json
     return render_template('Listarproductos.html', listaProd=p_filtrados)
 
-
+#ADMIN
 @app.route('/crearProducto', methods=['GET', 'POST'])
 def create_product():
+    if "id_user" in session:
+        return redirect(url_for('Index'))
+    if "id_admin" not in session:
+        return redirect(url_for('Index'))
     form = ProductForm()
     if request.method == "GET":
         return render_template("AgregarProducto.html", form=form)
@@ -374,7 +379,7 @@ def create_product():
     db.session.commit()
     return producto_schema.jsonify(new_prod)'''
 
-
+#METODO DE PRUEBA
 @app.route("/listarProductos", methods=["GET"])
 def get_products():
     all_prods = Producto.query.all()
@@ -382,9 +387,13 @@ def get_products():
     # print(result)
     return jsonify(result)
 
-
+#ADMIN
 @app.route("/eliminarProducto/<id>", methods=["POST"])
 def delete_product(id):
+    if "id_user" in session:
+        return redirect(url_for('Index'))
+    if "id_admin" not in session:
+        return redirect(url_for('Index'))
     prod = Producto.query.get(id)
     db.session.delete(prod)
     db.session.commit()
@@ -406,12 +415,15 @@ class LoginForm(FlaskForm):
     email = StringField('Email', validators=[
                         InputRequired(), Length(min=4, max=30)])
     contra = PasswordField('Contraseña', validators=[
-                           InputRequired(), Length(min=4, max=30)])
+                           InputRequired(), Length(min=2, max=30)])
 
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
-
+    if "id_user" in session:
+        return redirect(url_for('see_products'))
+    if "id_admin" in session:
+        return redirect(url_for('get_products_by_cat'))
     form = LoginForm()
     # if "user" in session:
     #        print("segundo" +session["user"])
@@ -449,14 +461,16 @@ def login():
         return render_template('signin.html', form=form)
     return render_template('signin.html', form=form)
 
-# @app.route('/verProductos', methods=['GET'])
-# def see_products():
-#    return render_template('Categorizacion.html')
 
-
+#USER
 @app.route("/verProductos/", methods=["GET"])
 @app.route("/verProductos/<cat>", methods=["GET"])
 def see_products(cat="ALL"):
+    if "id_user" not in session:
+        return redirect(url_for('Index'))
+    if "id_admin" in session:
+        return redirect(url_for('Index'))
+
     products = Producto.query.all()  # devuelve una lista
     p_filtrados = []  # lista vacia
     cat = request.args.get('cat')
@@ -509,6 +523,12 @@ class RegisterForm(FlaskForm):  # Crea el formulario de regisgtro del usuario
 
 @app.route("/registrarse", methods=['GET', 'POST'])
 def registro():
+    if "id_user" in session:
+        return redirect(url_for('see_products'))
+
+    if "id_admin" in session:
+        return redirect(url_for('get_products_by_cat'))
+
     form = RegisterForm()
 
     if form.validate_on_submit():
@@ -527,18 +547,28 @@ def registro():
 # nombre contra email telf------> Atributos del Usuario
     return render_template('Registrate.html', form=form)
 
-
+#USER
 @app.route("/miCuenta", methods=['GET', 'POST'])
 def revisarMiCuenta():
+    if "id_user" not in session:
+        return redirect(url_for('Index'))
+    if "id_admin" in session:
+        return redirect(url_for('Index'))
     id = session["id_user"]
     user = Usuario.query.get(id)
     print(user.email)
     print(user.id)
     return render_template('GestionarCuenta.html', nombre=user.nombre, email=user.email, telefono=user.telefono)
 
-
+#ADMIN
 @app.route("/actualizarProducto/<id>", methods=["GET", "POST"])
 def update_producto(id):
+    if "id_user" in session:
+        return redirect(url_for('Index'))
+    
+    if "id_admin" not in session:
+        return redirect(url_for('Index'))
+
     form = ProductForm()
     # recupera al producto
     product = Producto.query.get(id)
@@ -588,6 +618,10 @@ def pedidos():
 
 @app.route("/verPedidos", methods=["GET"])
 def ver_Pedidos():
+    if "id_user" not in session:
+        return redirect(url_for('Index'))
+    if "id_admin" in session:
+        return redirect(url_for('Index'))
     #all_pedidos = Pedido.query.all()
     all_pedidos = Pedido.query.filter_by(usuario_id=(session["id_user"]))
     aux = 0
@@ -601,9 +635,13 @@ def ver_Pedidos():
     else:
         return render_template('AdministrarPedido.html', listaPed=all_pedidos, total_precio=aux)
 
-
+#USER
 @app.route("/añadirPedido/<id>", methods=["POST"])
 def añadir_Pedido(id):
+    if "id_user" not in session:
+        return redirect(url_for('Index'))
+    if "id_admin" in session:
+        return redirect(url_for('Index'))
     prod = Producto.query.get(id)
     user_id = session["id_user"]
     ped = Pedido.query.filter_by(producto_id=id).first()
@@ -613,7 +651,7 @@ def añadir_Pedido(id):
     print("PRECIO UNI DEL PRODUCTO", prod.precio)
 
     if prod_cant > 0:
-        if ped:
+        if ped and (ped.usuario_id==user_id):
             if prod.id != ped.producto_id:
 
                 nuevo_pedido = Pedido(
@@ -637,14 +675,19 @@ def añadir_Pedido(id):
 
         return redirect(url_for('see_products'))
 
-
+#USER
 @app.route("/Procesado", methods=["GET"])
 def procesar():
+    if "id_user" not in session:
+        return redirect(url_for('Index'))
+    if "id_admin" in session:
+        return redirect(url_for('Index'))
+
     all_pedidos = Pedido.query.filter_by(usuario_id=(session["id_user"]))
     all_ped_aux = all_pedidos
     products = Producto.query.all()
     userid = session["id_user"]
-    
+
     for ped in all_pedidos:
 
         x = ped.producto_id
@@ -662,9 +705,13 @@ def procesar():
 
     return render_template('Compradoconexito.html')
 
-
+#USER
 @app.route("/masPedido/<id>", methods=["POST"])
 def aumentar_Pedido(id):
+    if "id_user" not in session:
+        return redirect(url_for('Index'))
+    if "id_admin" in session:
+        return redirect(url_for('Index'))
     ped = Pedido.query.get(id)
     prod_id = ped.producto_id
     prod = Producto.query.get(prod_id)
@@ -677,9 +724,13 @@ def aumentar_Pedido(id):
     return redirect(url_for("ver_Pedidos"))
 #flash("Producto Actualizado Satisfactoriamente")
 
-
+#USER
 @app.route("/menosPedido/<id>", methods=["POST"])
 def disminuir_Pedido(id):
+    if "id_user" not in session:
+        return redirect(url_for('Index'))
+    if "id_admin" in session:
+        return redirect(url_for('Index'))
     ped = Pedido.query.get(id)
     if ped.cantidad > 1:
         ped.cantidad -= 1
@@ -689,18 +740,27 @@ def disminuir_Pedido(id):
     return redirect(url_for("ver_Pedidos"))
 #flash("Producto Actualizado Satisfactoriamente")
 
-
+#admin
 @app.route("/entregar/<id>", methods=["POST"])
 def entregar_Pedido(id):
+    if "id_user" in session:
+        return redirect(url_for('Index'))
+    if "id_admin" not in session:
+        return redirect(url_for('Index'))
+
     ord = Orden.query.get(id)
     ord.status = 'Enviado'
     db.session.commit()
 
     return redirect(url_for('get_ordenes'))
 
-
+#USER
 @app.route("/eliminarPedido/<id>", methods=["POST"])
 def eliminar_Pedido(id):
+    if "id_user" not in session:
+        return redirect(url_for('Index'))
+    if "id_admin" in session:
+        return redirect(url_for('Index'))
     ped = Pedido.query.get(id)
     db.session.delete(ped)
     db.session.commit()
@@ -708,18 +768,26 @@ def eliminar_Pedido(id):
     return redirect(url_for("ver_Pedidos"))
 #flash("Producto Eliminado Satisfactoriamente")
 
-
+#ADMIN
 @app.route("/eliminarOrden/<id>", methods=["POST"])
 def eliminar_Orden(id):
+    if "id_user" in session:
+        return redirect(url_for('Index'))
+    if "id_admin" not in session:
+        return redirect(url_for('Index'))
     ord = Orden.query.get(id)
     db.session.delete(ord)
     db.session.commit()
 
     return redirect(url_for('get_ordenes'))
 
-
+#USER
 @app.route("/procesarPedidos", methods=["GET"])
 def procesar_Pedidos():
+    if "id_user" not in session:
+        return redirect(url_for('Index'))
+    if "id_admin" in session:
+        return redirect(url_for('Index'))
     all_pedidos = Pedido.query.filter_by(usuario_id=(session["id_user"]))
     aux = 0
 
@@ -729,7 +797,7 @@ def procesar_Pedidos():
 
     return render_template('ProcesarPagoTarjeta.html',listaPed=all_pedidos, total_precio=aux)
 
-
+#METODO DE PRUEBA
 @app.route("/gabor", methods=["GET", "POST"])
 def cargaImg():
     if request.method == "POST":
