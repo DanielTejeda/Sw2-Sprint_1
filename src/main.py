@@ -156,7 +156,7 @@ orden_schema = OrdenSchema()
 ordenes_schema = OrdenSchema(many=True)
 # HASTA AQUI TERMINA LA DEFINICION DE LA BASE DE DATOS
 
-@app.route('/')
+@app.route('/', methods=["GET"])
 def Index():
     return render_template("index.html")
 
