@@ -19,7 +19,8 @@ Bootstrap(app)
 # PostreSQL Connection
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1234@localhost/postgres'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Merlin879@localhost/postgres'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/postgres'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/postgres'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://vsocnupxfqionx:78f10efe3c5945522aaf291df314f72ff48fac9fc19195e4c4438de27acf8b3c@ec2-52-5-176-53.compute-1.amazonaws.com:5432/dcbsu1223f840v'
 # para q no mande alertas cuando hagamos modificaciones (opcional)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # MySQL Connection
