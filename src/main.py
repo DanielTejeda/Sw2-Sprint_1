@@ -10,7 +10,6 @@ from werkzeug.utils import secure_filename
 import os
 import uuid
 
-import views
 # initializations
 app = Flask(__name__)
 
