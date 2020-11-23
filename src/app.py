@@ -20,7 +20,7 @@ app.config['SECRET_KEY'] = 'estoessecretoXD!'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1234@localhost/postgres'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Merlin879@localhost/postgres'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/postgres'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://vsocnupxfqionx:78f10efe3c5945522aaf291df314f72ff48fac9fc19195e4c4438de27acf8b3c@ec2-52-5-176-53.compute-1.amazonaws.com:5432/dcbsu1223f840v'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://xbpnvhaqmutsms:cabd8346ec0d62810f70182733adfee4e1bbc086974048240be233718ac9280c@ec2-54-147-126-202.compute-1.amazonaws.com:5432/d1ea8q2b4e3vlq'
 # para q no mande alertas cuando hagamos modificaciones (opcional)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # MySQL Connection
@@ -30,7 +30,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #app.config['MYSQL_DB'] = 'flaskcontacts'
 #mysql = MySQL(app)
 # ruta absoluta para guardar las imagenes en en pc de Daniel
-app.config['IMAGE_UPLOADS'] = 'C:/Users/Daniel/Desktop/D-Juan-Market/Sprint_2/Sw2-Sprint_1/src/static/img/productos'
+#app.config['IMAGE_UPLOADS'] = 'C:/Users/Daniel/Desktop/D-Juan-Market/Sprint_2/Sw2-Sprint_1/src/static/img/productos'
 #app.config['IMAGE_UPLOADS'] = 'C:/Users/Adriana/Documents/2020-2/SOFTWARE/INTENTOMIL/Sw2-Sprint_1/src/static/img/productos'
 # instancia de la bd postrge
 db = SQLAlchemy(app)  # para usar la bd en otra aplicaciones colocar () sin mas
