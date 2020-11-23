@@ -19,7 +19,8 @@ app.config['SECRET_KEY'] = 'estoessecretoXD!'
 Bootstrap(app)
 # PostreSQL Connection
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1234@localhost/postgres'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/postgres'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Merlin879@localhost/postgres'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/postgres'
 # para q no mande alertas cuando hagamos modificaciones (opcional)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # MySQL Connection
@@ -53,6 +54,16 @@ class Usuario(db.Model):
         self.email = email
         self.telefono = telefono
 
+class Admin(db.Model):
+    # El orm requere una columna id obligatoriamente
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(40), unique=True)
+    contraseña = db.Column(db.String(1000))
+
+    # Constructor q se ejecuta por cada instancia de la clase
+    def __init__(self, nombre, contra, email, telefono):
+        self.nombre = nombre
+        self.contraseña = contraseña
 
 class Producto(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -301,6 +312,31 @@ class ProductForm(FlaskForm):  # Crea el formulario de regisgtro de productos
                          Optional(), Length(min=2, max=100)])
 
 #ADMIN
+
+@app.route("/loginAdmin", methods=['GET', 'POST'])
+def loginAdmin():
+    if "id_user" in session:
+        return redirect(url_for('see_products'))
+    if "id_admin" in session:
+        return redirect(url_for('get_products_by_cat'))
+    form = LoginForm()
+
+    if form.validate_on_submit():
+        if form.email.data == 'root' and form.contra.data == '1234':
+            session["admin"] = 'root'
+            session["status"] = 'active'
+            session["id_admin"] = '300'
+            print(session)
+            return redirect('/admin/')
+
+        
+        error_message = "Usuario o contraseña incorrectos"
+        flash(error_message)
+        return render_template('signinAdmin.html', form=form)
+    return render_template('signinAdmin.html', form=form)
+
+
+
 # LISTAR PRODUCTOS POR CATEGORIA (LISTA TODOS POR DEFAULT)
 @app.route("/admin/", methods=["GET"])
 @app.route("/admin/<cat>", methods=["GET"])
@@ -417,7 +453,6 @@ class LoginForm(FlaskForm):
     contra = PasswordField('Contraseña', validators=[
                            InputRequired(), Length(min=2, max=30)])
 
-
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if "id_user" in session:
@@ -430,16 +465,7 @@ def login():
     #        return render_template('index.html')
     #        print("GAAAAAA")
     if form.validate_on_submit():
-        #print("primer" + session["user"])
-        if form.email.data == 'root' and form.contra.data == '1234':
-            #session["user"] = 'root'
-            #session["status"] = 'active'
-            #session["id_user"] = '1'
-            session["admin"] = 'root'
-            session["status"] = 'active'
-            session["id_admin"] = '300'
-            print(session)
-            return redirect('/admin/')
+
 
         user = Usuario.query.filter_by(email=form.email.data).first()
 
