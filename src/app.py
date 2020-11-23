@@ -15,7 +15,7 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'estoessecretoXD!'
 
-Bootstrap(app)
+
 # PostreSQL Connection
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1234@localhost/postgres'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Merlin879@localhost/postgres'
@@ -37,6 +37,8 @@ app.config['IMAGE_UPLOADS'] = 'C:/Users/Daniel/Desktop/D-Juan-Market/Sprint_2/Sw
 db = SQLAlchemy(app)  # para usar la bd en otra aplicaciones colocar () sin mas
 # instancia de marshmallow
 ma = Marshmallow(app)
+
+boot = Bootstrap(app)
 
 
 class Usuario(db.Model):
