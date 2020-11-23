@@ -29,7 +29,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #app.config['MYSQL_PASSWORD'] = 'password'
 #app.config['MYSQL_DB'] = 'flaskcontacts'
 #mysql = MySQL(app)
-
 # ruta absoluta para guardar las imagenes en en pc de Daniel
 app.config['IMAGE_UPLOADS'] = 'C:/Users/Daniel/Desktop/D-Juan-Market/Sprint_2/Sw2-Sprint_1/src/static/img/productos'
 #app.config['IMAGE_UPLOADS'] = 'C:/Users/Adriana/Documents/2020-2/SOFTWARE/INTENTOMIL/Sw2-Sprint_1/src/static/img/productos'
