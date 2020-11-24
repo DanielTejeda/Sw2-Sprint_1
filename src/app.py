@@ -19,8 +19,8 @@ app.config['SECRET_KEY'] = 'estoessecretoXD!'
 Bootstrap(app)
 # PostreSQL Connection
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1234@localhost/postgres'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Merlin879@localhost/postgres'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/postgres'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Merlin879@localhost/postgres'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/postgres'
 # para q no mande alertas cuando hagamos modificaciones (opcional)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # MySQL Connection
