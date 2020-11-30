@@ -19,12 +19,12 @@ app.config['SECRET_KEY'] = 'estoessecretoXD!'
 # PostreSQL Connection
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1234@localhost/postgres'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Merlin879@localhost/postgres'
-<<<<<<< HEAD
+
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/postgres'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://xbpnvhaqmutsms:cabd8346ec0d62810f70182733adfee4e1bbc086974048240be233718ac9280c@ec2-54-147-126-202.compute-1.amazonaws.com:5432/d1ea8q2b4e3vlq'
-=======
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/postgres'
->>>>>>> ff92315fb6c992316f663734915ed5a1e6fdfe89
+
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/postgres'
+
 # para q no mande alertas cuando hagamos modificaciones (opcional)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # MySQL Connection
