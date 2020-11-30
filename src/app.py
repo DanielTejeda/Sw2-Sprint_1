@@ -619,15 +619,21 @@ def update_producto(id):
                 print("TRUE")
                 f = request.files['image']
                 print(f)
+                print(f)
+                print(f)
                 #f.save('/static/img/productos/' + secure_filename(f.filename))
                 if f.filename:
                     unique=str(uuid.uuid4())+".jpg"
+                    print(unique)
+                    print(unique)
                     print(unique)
                     f.save(os.path.join(
                         app.config["IMAGE_UPLOADS"], unique))
                         #app.config["IMAGE_UPLOADS"], secure_filename(f.filename)))
                 else:
                     product.imagen = form.imagen.data
+                print("Imagen subida: ", f.filename)
+                print("Imagen subida: ", f.filename)
                 print("Imagen subida: ", f.filename)
             db.session.commit()  # termino la operacion
 
