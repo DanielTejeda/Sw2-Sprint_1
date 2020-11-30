@@ -339,7 +339,7 @@ def loginAdmin():
     return render_template('signinAdmin.html', form=form)
 
 
-
+#ADMIN
 # LISTAR PRODUCTOS POR CATEGORIA (LISTA TODOS POR DEFAULT)
 @app.route("/admin/", methods=["GET"])
 @app.route("/admin/<cat>", methods=["GET"])
@@ -383,7 +383,7 @@ def create_product():
                 print(f)
                 #f.save('/static/img/productos/' + secure_filename(f.filename))
                 if f.filename:
-                    unique=str(uuid.uuid4())
+                    unique=str(uuid.uuid4())+str(f.filename)
                     print(unique)
                     print(unique)
                     print(unique)
@@ -614,7 +614,7 @@ def update_producto(id):
             product.cantidad = form.cantidad.data
             product.categoria = form.categoria.data
             product.descripcion = form.descripcion.data
-            product.imagen = form.imagen.data
+            #product.imagen = form.imagen.data
 
             if request.files:
                 print("TRUE")
@@ -624,12 +624,13 @@ def update_producto(id):
                 print(f)
                 #f.save('/static/img/productos/' + secure_filename(f.filename))
                 if f.filename:
-                    unique=str(uuid.uuid4())
+                    unique=str(uuid.uuid4())+str(f.filename)
                     print(unique)
                     print(unique)
                     print(unique)
                     f.save(os.path.join(
                         app.config["IMAGE_UPLOADS"], unique))
+                    product.imagen = unique
                 else:
                     product.imagen = form.imagen.data
                 print("Imagen subida: ", f.filename)
