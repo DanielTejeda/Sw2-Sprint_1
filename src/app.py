@@ -381,9 +381,8 @@ def create_product():
                 f = request.files['image']
                 print(f)
                 print(f)
-                #f.save('/static/img/productos/' + secure_filename(f.filename))
                 if f.filename:
-                    unique=str(uuid.uuid4())+str(f.filename)
+                    unique=str(uuid.uuid4())+".jpg"
                     print(unique)
                     print(unique)
                     print(unique)
@@ -614,7 +613,7 @@ def update_producto(id):
             product.cantidad = form.cantidad.data
             product.categoria = form.categoria.data
             product.descripcion = form.descripcion.data
-            #product.imagen = form.imagen.data
+            product.imagen = form.imagen.data
 
             if request.files:
                 print("TRUE")
@@ -624,7 +623,7 @@ def update_producto(id):
                 print(f)
                 #f.save('/static/img/productos/' + secure_filename(f.filename))
                 if f.filename:
-                    unique=str(uuid.uuid4())+str(f.filename)
+                    unique=str(uuid.uuid4())+".jpg"
                     print(unique)
                     print(unique)
                     print(unique)
