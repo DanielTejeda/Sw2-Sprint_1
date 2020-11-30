@@ -33,7 +33,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #app.config['IMAGE_UPLOADS'] = 'C:/Users/Daniel/Desktop/D-Juan-Market/Sprint_2/Sw2-Sprint_1/src/static/img/productos'
 #app.config['IMAGE_UPLOADS'] = 'C:/Users/Adriana/Documents/2020-2/SOFTWARE/INTENTOMIL/Sw2-Sprint_1/src/static/img/productos'
 #PARA HEROKU
-app.config['IMAGE_UPLOADS']='app/src/static/img/productos'
+app.config['IMAGE_UPLOADS']='/app/src/static/img/productos'
 # instancia de la bd postrge
 db = SQLAlchemy(app)  # para usar la bd en otra aplicaciones colocar () sin mas
 # instancia de marshmallow
