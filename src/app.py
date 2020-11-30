@@ -383,7 +383,7 @@ def create_product():
                 print(f)
                 #f.save('/static/img/productos/' + secure_filename(f.filename))
                 if f.filename:
-                    unique=str(uuid.uuid4())+".jpg"
+                    unique=str(uuid.uuid4())
                     print(unique)
                     print(unique)
                     print(unique)
@@ -624,7 +624,7 @@ def update_producto(id):
                 print(f)
                 #f.save('/static/img/productos/' + secure_filename(f.filename))
                 if f.filename:
-                    unique=str(uuid.uuid4())+".jpeg"
+                    unique=str(uuid.uuid4())
                     print(unique)
                     print(unique)
                     print(unique)
