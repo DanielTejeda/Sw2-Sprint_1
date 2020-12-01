@@ -823,7 +823,9 @@ def eliminar_Orden(id):
 
 #USER
 @app.route("/historial",methods=["GET"])
-    return render_template('Historial.html')
+def verhistorial():
+    return render_template("Historial.html")
+
 #USER
 @app.route("/procesarPedidos", methods=["GET"])
 def procesar_Pedidos():
