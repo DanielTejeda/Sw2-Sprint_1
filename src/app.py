@@ -36,9 +36,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #mysql = MySQL(app)
 # ruta absoluta para guardar las imagenes en en pc de Daniel
 #app.config['IMAGE_UPLOADS'] = 'C:/Users/Daniel/Desktop/D-Juan-Market/Sprint_2/Sw2-Sprint_1/src/static/img/productos'
-#app.config['IMAGE_UPLOADS'] = 'C:/Users/Adriana/Documents/2020-2/SOFTWARE/INTENTOMIL/Sw2-Sprint_1/src/static/img/productos'
+app.config['IMAGE_UPLOADS'] = 'C:/Users/Adriana/Documents/2020-2/SOFTWARE/INTENTOMIL/Sw2-Sprint_1/src/static/img/productos'
 #PARA HEROKU
-app.config['IMAGE_UPLOADS']='/app/src/static/img/productos/'
+#app.config['IMAGE_UPLOADS']='/app/src/static/img/productos/'
 # instancia de la bd postrge
 db = SQLAlchemy(app)  # para usar la bd en otra aplicaciones colocar () sin mas
 # instancia de marshmallow
@@ -825,7 +825,7 @@ def eliminar_Orden(id):
 @app.route("/historial",methods=["GET"])
 def verhistorial():
 
-    all_orden = Orden.query.filter_by(usuario_id=(session["id_user"]))
+    all_orden = Orden.query.filter_by(usuar_id=(session["id_user"]))
 
     return render_template('Historial.html',listaHistorial=all_orden)
 
