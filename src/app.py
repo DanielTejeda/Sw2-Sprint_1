@@ -17,12 +17,12 @@ app.config['SECRET_KEY'] = 'estoessecretoXD!'
 
 
 # PostreSQL Connection
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1234@localhost/postgres'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1234@localhost/postgres'
 
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Merlin879@localhost/postgres'
 
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/postgres'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://xbpnvhaqmutsms:cabd8346ec0d62810f70182733adfee4e1bbc086974048240be233718ac9280c@ec2-54-147-126-202.compute-1.amazonaws.com:5432/d1ea8q2b4e3vlq'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://xbpnvhaqmutsms:cabd8346ec0d62810f70182733adfee4e1bbc086974048240be233718ac9280c@ec2-54-147-126-202.compute-1.amazonaws.com:5432/d1ea8q2b4e3vlq'
 
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/postgres'
 
@@ -36,9 +36,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #mysql = MySQL(app)
 # ruta absoluta para guardar las imagenes en en pc de Daniel
 #app.config['IMAGE_UPLOADS'] = 'C:/Users/Daniel/Desktop/D-Juan-Market/Sprint_2/Sw2-Sprint_1/src/static/img/productos'
-app.config['IMAGE_UPLOADS'] = 'C:/Users/Adriana/Documents/2020-2/SOFTWARE/INTENTOMIL/Sw2-Sprint_1/src/static/img/productos'
+#app.config['IMAGE_UPLOADS'] = 'C:/Users/Adriana/Documents/2020-2/SOFTWARE/INTENTOMIL/Sw2-Sprint_1/src/static/img/productos'
 #PARA HEROKU
-#app.config['IMAGE_UPLOADS']='/app/src/static/img/productos/'
+app.config['IMAGE_UPLOADS']='/app/src/static/img/productos/'
 # instancia de la bd postrge
 db = SQLAlchemy(app)  # para usar la bd en otra aplicaciones colocar () sin mas
 # instancia de marshmallow
