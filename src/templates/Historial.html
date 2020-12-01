@@ -1,0 +1,81 @@
+{% extends 'base/base_user.html' %}
+
+{% block content %}
+
+<!-- Page Content -->
+<div class="container">
+
+  <div class="row">
+    <!--
+    <div class="col-lg-3">
+      <h1 class="my-4">Bienvenido a D'Juan Market</h1>
+    </div>-->
+
+    <div class="col-lg-12">
+
+      <div class="row">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+          <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Historial de pedidos realizados</h1>
+
+            
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-striped table-sm">
+              <thead>
+                <tr>
+                  <th>Id de orden</th>
+                  <th>Producto</th>
+                  <th>Cantidad</th>
+                  <th>Monto Pagado</th>
+                  
+                  
+                </tr>
+              </thead>
+              <tbody>
+                {% for ped in listaPed %}
+                  <tr>
+                    <td>{{ ped.id }}</td>
+                    <td>{{ ped.nameProd }}</td>
+                    <td>{{ ped.cantidad }}</td>
+                    <td>{{ ped.precio_uni }}</td>
+                    <td>{{ ped.precio_total }}</td>
+                    <!--<td>{{ ped.estado }}</td>
+                    <td>{{ ped.imagen }}</td>--> 
+                    
+                    <td>
+                      <form action="/eliminarPedido/{{ped.id}}" method="POST">
+                        <button type="submit" class="btn"><i class="fa fa-trash"></i></button>
+                      </form>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            <h5>Precio total: S/ {{ total_precio }}</h5>
+          </div>
+
+
+        </main>
+
+      </div>
+      <!-- /.row -->
+
+    </div>
+    <!-- /.col-lg-9 -->
+
+  </div>
+  <!-- /.row -->
+
+</div>
+<!-- /.container -->
+
+{% block jScript %}
+<!--
+    BLOQUE PARA COLOCAR ARCHIVOS JS
+  -->
+{% endblock %}
+
+{% endblock %}
