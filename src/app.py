@@ -822,6 +822,9 @@ def eliminar_Orden(id):
     return redirect(url_for('get_ordenes'))
 
 #USER
+@app.route("/historial",methods=["GET"])
+    return render_template('Historial.html')
+#USER
 @app.route("/procesarPedidos", methods=["GET"])
 def procesar_Pedidos():
     if "id_user" not in session:
