@@ -35,13 +35,13 @@
                 </tr>
               </thead>
               <tbody>
-                {% for ped in listaPed %}
+                {% for item in listaHistorial %}
                   <tr>
-                    <td>{{ ped.id }}</td>
-                    <td>{{ ped.nameProd }}</td>
-                    <td>{{ ped.cantidad }}</td>
-                    <td>{{ ped.precio_uni }}</td>
-                    <td>{{ ped.precio_total }}</td>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.namProd }}</td>
+                    <td>{{ item.cant }}</td>
+                    <td>{{ item.monto_total }}</td>
+                   
                      
                     
                     <td>
