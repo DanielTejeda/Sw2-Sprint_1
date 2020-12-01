@@ -822,8 +822,8 @@ def eliminar_Orden(id):
     return redirect(url_for('get_ordenes'))
 
 #USER
-@app.route("/historial",methods=["GET"])
-def verhistorial():
+@app.route("/historial/<id>",methods=["GET"])
+def verhistorial(id):
     return render_template("Historial.html")
 
 #USER
