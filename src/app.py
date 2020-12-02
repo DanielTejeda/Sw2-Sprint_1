@@ -9,6 +9,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 import os
 import uuid
+from datetime import datetime 
 
 # initializations
 app = Flask(__name__)
@@ -101,8 +102,9 @@ class Pedido(db.Model):
     precio_uni = db.Column(db.Float)
     precio_total = db.Column(db.Float)
     estado = db.Column(db.String(20))
+    fechaPed = db.Column(db.DateTime)
 
-    def __init__(self, producto_id, usuario_id, nameProd, cantidad, precio_uni, precio_total, estado):
+    def __init__(self, producto_id, usuario_id, nameProd, cantidad, precio_uni, precio_total, estado, fechaPed):
         self.producto_id = producto_id
         self.usuario_id = usuario_id
         self.nameProd = nameProd
@@ -110,6 +112,7 @@ class Pedido(db.Model):
         self.precio_uni = precio_uni
         self.precio_total = precio_total
         self.estado = estado
+        self.fechaPed = fechaPed
 
 
 class Orden(db.Model):
@@ -119,13 +122,15 @@ class Orden(db.Model):
     cant = db.Column(db.Integer)
     monto_total = db.Column(db.Float)
     status = db.Column(db.String(20))
+    fechaOrd = db.Column(db.DateTime)
 
-    def __init__(self, usuar_id, namProd, cant,  monto_total, status):
+    def __init__(self, usuar_id, namProd, cant,  monto_total, status, fechaOrd):
         self.usuar_id = usuar_id
         self.namProd = namProd
         self.cant = cant
         self.monto_total = monto_total
         self.status = status
+        self.fechaOrd = fechaOrd
 
 
 # sentencia para crear todas las tablas
@@ -152,14 +157,14 @@ productos_schema = ProductoSchema(many=True)
 class PedidoSchema(ma.Schema):
     class Meta:
         fields = ("id", "producto_id", "usuario_id", "nameProd",
-                  "cantidad", "precio_uni", "precio_total", "estado")
+                  "cantidad", "precio_uni", "precio_total", "estado","fechaPed")
 
 pedido_schema = PedidoSchema()
 pedidos_schema = PedidoSchema(many=True)
 
 class OrdenSchema(ma.Schema):
     class Meta:
-        fields = ("id", "usuar_id", "namProd", "cant", "monto_total", "status")
+        fields = ("id", "usuar_id", "namProd", "cant", "monto_total", "status","fechaOrd")
 
 orden_schema = OrdenSchema()
 ordenes_schema = OrdenSchema(many=True)
@@ -550,7 +555,7 @@ class RegisterForm(FlaskForm):  # Crea el formulario de regisgtro del usuario
     nombre = StringField('Nombre', validators=[
                          InputRequired(), Length(min=4, max=30)])
     contra = PasswordField('Contraseña', validators=[
-                           InputRequired(), Length(min=8, max=30)])
+                           InputRequired(), Length(min=4, max=30)])
     telefono = StringField('Teléfono', validators=[
                            InputRequired(), Length(min=4, max=30)])
 
@@ -689,14 +694,18 @@ def añadir_Pedido(id):
     print("ID DEL PRODUCTO ", prod.id)
     print("ID DEL USUARIO ", user_id)
     print("PRECIO UNI DEL PRODUCTO", prod.precio)
+    print("FECHA DEL PEDIDO ",datetime.now())
 
+    today = datetime.now()
+    format = "%d %b %Y %H:%M:%S"
+    now = today.strftime(format)
     if prod_cant > 0:
         if ped and (ped.usuario_id==user_id):
             if prod.id != ped.producto_id:
-
                 nuevo_pedido = Pedido(
-                    prod.id, user_id, prod.nombreProd, 1, prod.precio, prod.precio, "Deseado")
+                    prod.id, user_id, prod.nombreProd, 1, prod.precio, prod.precio, "Deseado",now)
                 db.session.add(nuevo_pedido)
+                print(nuevo_pedido.fechaPed)
                 # lo cargo a la BD
             else:
 
@@ -706,10 +715,10 @@ def añadir_Pedido(id):
             db.session.commit()
             # termino la operacion
         else:
-            nuevo_pedido = Pedido(
-                prod.id, user_id, prod.nombreProd, 1, prod.precio, prod.precio, "Deseado")
+            nuevo_pedido = Pedido(prod.id, user_id, prod.nombreProd, 1, prod.precio, prod.precio, "Deseado",now)
             db.session.add(nuevo_pedido)
             db.session.commit()
+            print(nuevo_pedido.fechaPed)
         return redirect(url_for('ver_Pedidos'))
     else:
 
@@ -727,6 +736,9 @@ def procesar():
     all_ped_aux = all_pedidos
     products = Producto.query.all()
     userid = session["id_user"]
+    today = datetime.now()
+    format = "%d %b %Y %H:%M:%S"
+    now = today.strftime(format)
 
     for ped in all_pedidos:
 
@@ -737,8 +749,7 @@ def procesar():
             b = producto.cantidad
             if x == a:
                 producto.cantidad = b-y
-                nueva_orden = Orden(userid, producto.nombreProd,
-                                    y, ped.precio_total, "Pagado")
+                nueva_orden = Orden(userid, producto.nombreProd,y, ped.precio_total, "Pagado", now)
                 db.session.add(nueva_orden)
                 db.session.delete(ped)
                 db.session.commit()
@@ -846,10 +857,10 @@ def procesar_Pedidos():
     return render_template('ProcesarPagoTarjeta.html',listaPed=all_pedidos, total_precio=aux)
 
 #METODO DE PRUEBA
+'''
 @app.route("/gabor", methods=["GET", "POST"])
 def cargaImg():
     if request.method == "POST":
-
         if request.files:
             f = request.files['image']
 
@@ -866,7 +877,7 @@ def cargaImg():
             # Imagen subida:  old-man (1).png
             # guardar el filename
     return render_template("GAA_CargarImagen.html")
-
+'''
 
 @app.errorhandler(404)
 def not_found(error=None):

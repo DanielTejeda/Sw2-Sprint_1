@@ -31,6 +31,7 @@
               <thead>
                 <tr>
                   <th>Id</th>
+                  <th>Fecha y hora</th>
                   <th>Producto</th>
                   <th>Cantidad</th>
                   <th>Precio Unitario (S/.)</th>
@@ -42,6 +43,7 @@
                 {% for ped in listaPed %}
                   <tr>
                     <td>{{ ped.id }}</td>
+                    <td>{{ ped.fechaPed }}</td>
                     <td>{{ ped.nameProd }}</td>
                     <td>{{ ped.cantidad }}</td>
                     <td>{{ ped.precio_uni }}</td>
